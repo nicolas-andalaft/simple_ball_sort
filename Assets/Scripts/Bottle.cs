@@ -2,16 +2,18 @@
 
 public class Bottle
 {
+    private static int containerCapacity;
     private Stack<Ball> container;
 
     public Bottle(int ballCount)
     {
-        container = new Stack<Ball>(ballCount);
+        containerCapacity = ballCount;
+        container = new Stack<Ball>(containerCapacity);
     }
 
     public void tryPush(Ball incomingBall)
     {
-        if (container.Count >= 4) return;
+        if (container.Count >= containerCapacity) return;
         if (container.Count == 0 || container.Peek().getId() == incomingBall.getId())
         {
             container.Push(incomingBall);
