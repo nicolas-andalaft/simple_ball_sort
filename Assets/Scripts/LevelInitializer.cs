@@ -11,25 +11,58 @@ public class LevelInitializer : MonoBehaviour
         // Instanciate bottles array with Unity Inspector value
         bottles = new Bottle[bottlesQty];
 
-        for (int i = 0; i < ballCount; i++)
+        // Populate array with new Bottles
+        for (int i = 0; i < bottlesQty; i++)
             bottles[i] = new Bottle(ballCount);
     }
 
     private void Start()
     {
-        foreach (Bottle bottle in bottles)
-            randomizeBalls(bottle);
+        Ball[] ballList = createBallList();
+        shuffleBalls(ref ballList);
+        populateBottles(ballList);
     }
 
-    private void randomizeBalls(Bottle bottle)
+    private Ball[] createBallList()
     {
-        for (int i = 0; i < 4; i++)
-        {
-            int randomID = Random.Range(0, 10);
-            Ball newBall = new Ball(randomID);
-            bottle.tryPush(newBall);
+        Ball[] ballList = new Ball[ballCount * bottlesQty];
 
-            print("Ball " + i + ": " + randomID);
+        // Populate array with balls in order
+        for (int i = 0; i < bottlesQty; i++)
+        {
+            for (int j = 0; j < ballCount; j++)
+            {
+                Ball newBall = new Ball(i);
+                ballList[i * ballCount + j] = newBall;
+            }
+        }
+
+        return ballList;
+    }
+
+    private void shuffleBalls(ref Ball[] ballList)
+    {
+        int randomIndex;
+        for (int i = ballList.Length -1; i >= 0; i--)
+        {
+            randomIndex = Random.Range(0, i);
+            if (randomIndex != i)
+            {
+                Ball aux = ballList[randomIndex];
+                ballList[randomIndex] = ballList[i];
+                ballList[i] = aux;
+            }
         }
     }
+
+    private void populateBottles(Ball[] ballList)
+    {
+        for (int i = 0; i < bottlesQty; i++)
+        {
+            for (int j = 0; j < ballCount; j++)
+                bottles[i].tryPush(ballList[i * ballCount + j]);
+        }
+    }
+
+
 }
