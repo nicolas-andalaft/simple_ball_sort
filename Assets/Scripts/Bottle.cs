@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
-public class Bottle
+[RequireComponent(typeof(Transform))]
+public class Bottle : MonoBehaviour
 {
-    private static int containerCapacity;
-    private Stack<Ball> container;
+    [SerializeField] private static int containerCapacity;
+    [SerializeField] private Stack<Ball> container;
 
-    public Bottle(int ballCount)
+    public void initialize(int ballCount)
     {
         containerCapacity = ballCount;
         container = new Stack<Ball>(containerCapacity);
@@ -17,6 +19,13 @@ public class Bottle
         if (container.Count == 0 || container.Peek().getId() == incomingBall.getId())
         {
             container.Push(incomingBall);
+            incomingBall.attach(transform);
         }
+    }
+
+    public void forcePush(Ball incomingBall)
+    {
+        container.Push(incomingBall);
+        incomingBall.attach(transform);
     }
 }

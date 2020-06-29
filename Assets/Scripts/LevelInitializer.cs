@@ -2,8 +2,13 @@
 
 public class LevelInitializer : MonoBehaviour
 {
+    [Header("Values")]
     [SerializeField] private int bottlesQty;
     [SerializeField] private int ballCount;
+    [Header("Prefabs")]
+    [SerializeField] private GameObject bottlePrefab = null;
+    [SerializeField] private GameObject ballPrefab = null;
+
     private Bottle[] bottles;
 
     private void Awake()
@@ -13,7 +18,11 @@ public class LevelInitializer : MonoBehaviour
 
         // Populate array with new Bottles
         for (int i = 0; i < bottlesQty; i++)
-            bottles[i] = new Bottle(ballCount);
+        {
+            Bottle newBottle = Instantiate(bottlePrefab).GetComponent<Bottle>();
+            newBottle.initialize(ballCount);
+            bottles[i] = newBottle;
+        }
     }
 
     private void Start()
@@ -30,9 +39,12 @@ public class LevelInitializer : MonoBehaviour
         // Populate array with balls in order
         for (int i = 0; i < bottlesQty; i++)
         {
+            Color randomColor = new Color(Random.value, Random.value, Random.value);
+
             for (int j = 0; j < ballCount; j++)
             {
-                Ball newBall = new Ball(i);
+                Ball newBall = Instantiate(ballPrefab).GetComponent<Ball>();
+                newBall.initialize(i, randomColor);
                 ballList[i * ballCount + j] = newBall;
             }
         }
@@ -60,7 +72,7 @@ public class LevelInitializer : MonoBehaviour
         for (int i = 0; i < bottlesQty; i++)
         {
             for (int j = 0; j < ballCount; j++)
-                bottles[i].tryPush(ballList[i * ballCount + j]);
+                bottles[i].forcePush(ballList[i * ballCount + j]);
         }
     }
 

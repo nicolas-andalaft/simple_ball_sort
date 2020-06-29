@@ -1,7 +1,22 @@
-﻿public class Ball
-{
-    private int id;
+﻿using UnityEngine;
 
-    public Ball(int _id) { id = _id; }
+[RequireComponent(typeof(Transform))]
+public class Ball : MonoBehaviour
+{
+    [SerializeField] private int id;
+
+    public void initialize(int _id, Color testColor) 
+    { 
+        id = _id;
+        GetComponent<SpriteRenderer>().color = testColor;
+    }
+
     public int getId() { return id; }
+
+    public void attach(Transform parent)
+    {
+        transform.SetParent(parent, true);
+        print("ta");
+    }
+
 }
