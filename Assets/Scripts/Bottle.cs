@@ -15,17 +15,20 @@ public class Bottle : MonoBehaviour
 
     public void tryPush(Ball incomingBall)
     {
-        if (container.Count >= containerCapacity) return;
+        if (container.Count >= containerCapacity) 
+            return;
+
         if (container.Count == 0 || container.Peek().getId() == incomingBall.getId())
-        {
-            container.Push(incomingBall);
-            incomingBall.attach(transform);
-        }
+            forcePush(incomingBall);
     }
 
     public void forcePush(Ball incomingBall)
     {
         container.Push(incomingBall);
         incomingBall.attach(transform);
+
+        // Set ball position
+        Vector3 position = new Vector3(0, container.Count - 1, 0);
+        incomingBall.transform.localPosition += position;
     }
 }

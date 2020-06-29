@@ -7,6 +7,7 @@ public class LevelFactory : MonoBehaviour
     [Header("Values")]
     [SerializeField] private int bottlesQty;
     [SerializeField] private int ballCount;
+    [SerializeField] private float bottleMargin;
     [Header("Prefabs")]
     [SerializeField] private GameObject bottlePrefab = null;
     [SerializeField] private GameObject ballPrefab = null;
@@ -15,20 +16,26 @@ public class LevelFactory : MonoBehaviour
 
     public void generateLevel()
     {
-        // Instanciate bottles array with Unity Inspector value
+        instantiateBottles();
+        Ball[] ballList = createBallList();
+        shuffleBalls(ref ballList);
+        populateBottles(ballList);
+    }
+
+    private void instantiateBottles()
+    {
         bottles = new Bottle[bottlesQty];
 
         // Populate array with new Bottles
         for (int i = 0; i < bottlesQty; i++)
         {
-            Bottle newBottle = Instantiate(bottlePrefab).GetComponent<Bottle>();
+            GameObject bottleObj = Instantiate(bottlePrefab);
+            bottleObj.transform.position = new Vector3(i * bottleMargin, 0, 0);
+
+            Bottle newBottle = bottleObj.GetComponent<Bottle>();
             newBottle.initialize(ballCount);
             bottles[i] = newBottle;
         }
-
-        Ball[] ballList = createBallList();
-        shuffleBalls(ref ballList);
-        populateBottles(ballList);
     }
 
     private Ball[] createBallList()
