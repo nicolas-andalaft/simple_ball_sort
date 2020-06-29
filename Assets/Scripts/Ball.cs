@@ -13,10 +13,6 @@ public class Ball : MonoBehaviour
 
     public int getId() { return id; }
 
-    public void attach(Transform parent)
-    {
-        transform.SetParent(parent, true);
-        print("ta");
-    }
+    public void attach(Transform parent) { transform.SetParent(parent, true); }
 
 }
