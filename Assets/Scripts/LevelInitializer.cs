@@ -13,7 +13,6 @@ public class LevelInitializer : MonoBehaviour
 
     private void Start()
     {
-        gameManager.initialize();
-        levelFactory.generateLevel();
+        levelFactory.generateLevel(gameManager);
     }
 }

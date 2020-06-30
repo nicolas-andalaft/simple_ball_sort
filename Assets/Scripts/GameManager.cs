@@ -2,17 +2,9 @@
 
 public class GameManager : MonoBehaviour
 {
-    private static GameManager GM; //singleton
     private Bottle selectedBottle;
 
-    public void initialize()
-    {
-        if (!GM)
-            GM = this;
-    }
-
-    public static void handleSelection(Bottle newBottle) { GM._handleSelection(newBottle); }
-    private void _handleSelection(Bottle newBottle)
+    public void handleSelection(Bottle newBottle)
     {
         if (selectedBottle)
         {

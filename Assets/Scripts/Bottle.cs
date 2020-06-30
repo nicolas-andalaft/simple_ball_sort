@@ -5,12 +5,14 @@ using UnityEngine;
 public class Bottle : MonoBehaviour
 {
     [SerializeField] private static int containerCapacity;
+    [SerializeField] private static GameManager gameManager;
     [SerializeField] private Stack<Ball> container;
 
-    public void initialize(int ballCount)
+    public void initialize(int ballCount, GameManager _gameManager)
     {
-        containerCapacity = ballCount;
-        container = new Stack<Ball>(containerCapacity);
+        if (containerCapacity == 0) containerCapacity = ballCount;
+        if (container == null) container = new Stack<Ball>(containerCapacity);
+        if (gameManager == null) gameManager = _gameManager;
     }
 
     public bool tryPush(Ball incomingBall)
@@ -52,6 +54,6 @@ public class Bottle : MonoBehaviour
 
     private void OnMouseUp()
     {
-        GameManager.handleSelection(this);
+        gameManager.handleSelection(this);
     }
 }

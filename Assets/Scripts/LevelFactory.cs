@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class LevelFactory : MonoBehaviour
 {
@@ -14,15 +12,15 @@ public class LevelFactory : MonoBehaviour
 
     private Bottle[] bottles;
 
-    public void generateLevel()
+    public void generateLevel(GameManager gameManager)
     {
-        instantiateBottles();
+        instantiateBottles(gameManager);
         Ball[] ballList = createBallList();
         shuffleBalls(ref ballList);
         populateBottles(ballList);
     }
 
-    private void instantiateBottles()
+    private void instantiateBottles(GameManager gameManager)
     {
         bottles = new Bottle[bottlesQty + 2];
 
@@ -33,7 +31,7 @@ public class LevelFactory : MonoBehaviour
             bottleObj.transform.position = new Vector3(i * bottleMargin, 0, 0);
 
             Bottle newBottle = bottleObj.GetComponent<Bottle>();
-            newBottle.initialize(ballCount);
+            newBottle.initialize(ballCount, gameManager);
             bottles[i] = newBottle;
         }
     }
