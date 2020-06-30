@@ -10,19 +10,20 @@ public class LevelFactory : MonoBehaviour
     [SerializeField] private GameObject bottlePrefab = null;
     [SerializeField] private GameObject ballPrefab = null;
 
-    private Bottle[] bottles;
-
-    public void generateLevel(GameManager gameManager)
+    public Bottle[] generateLevel(GameManager gameManager)
     {
-        instantiateBottles(gameManager);
+        Bottle[] bottles = instantiateBottles(gameManager);
         Ball[] ballList = createBallList();
+
         shuffleBalls(ref ballList);
-        populateBottles(ballList);
+        populateBottles(ref bottles, ballList);
+
+        return bottles;
     }
 
-    private void instantiateBottles(GameManager gameManager)
+    private Bottle[] instantiateBottles(GameManager gameManager)
     {
-        bottles = new Bottle[bottlesQty + 2];
+        Bottle[] bottles = new Bottle[bottlesQty + 2];
 
         // Populate array with new Bottles
         for (int i = 0; i < bottles.Length; i++)
@@ -34,6 +35,8 @@ public class LevelFactory : MonoBehaviour
             newBottle.initialize(ballCount, gameManager);
             bottles[i] = newBottle;
         }
+
+        return bottles;
     }
 
     private Ball[] createBallList()
@@ -71,7 +74,7 @@ public class LevelFactory : MonoBehaviour
         }
     }
 
-    private void populateBottles(Ball[] ballList)
+    private void populateBottles(ref Bottle[] bottles, Ball[] ballList)
     {
         for (int i = 0; i < bottlesQty; i++)
         {

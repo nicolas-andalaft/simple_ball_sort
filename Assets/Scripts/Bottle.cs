@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [RequireComponent(typeof(Transform))]
@@ -50,6 +51,25 @@ public class Bottle : MonoBehaviour
     public void popBall()
     {
         container.Pop();
+    }
+
+    public bool verifyIDs()
+    {
+        if (container.Count == 0)
+            return true;
+        if (container.Count != containerCapacity)
+            return false;
+
+        bool correct = true;
+        int firstID = container.ElementAt(0).getId();
+
+        for (int i = 1; correct && i < containerCapacity; i++)
+        {
+            if (container.ElementAt(i).getId() != firstID)
+                correct = false;
+        }
+
+        return correct;
     }
 
     private void OnMouseUp()
