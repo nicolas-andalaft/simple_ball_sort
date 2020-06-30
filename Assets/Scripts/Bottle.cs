@@ -13,13 +13,18 @@ public class Bottle : MonoBehaviour
         container = new Stack<Ball>(containerCapacity);
     }
 
-    public void tryPush(Ball incomingBall)
+    public bool tryPush(Ball incomingBall)
     {
-        if (container.Count >= containerCapacity) 
-            return;
+        if (!incomingBall || container.Count >= containerCapacity) 
+            return false;
 
         if (container.Count == 0 || container.Peek().getId() == incomingBall.getId())
+        {
             forcePush(incomingBall);
+            return true;
+        }
+        else
+            return false;
     }
 
     public void forcePush(Ball incomingBall)
@@ -29,6 +34,24 @@ public class Bottle : MonoBehaviour
 
         // Set ball position
         Vector3 position = new Vector3(0, container.Count - 1, 0);
-        incomingBall.transform.localPosition += position;
+        incomingBall.transform.localPosition = position;
+    }
+
+    public Ball peekBall()
+    {
+        if (container.Count == 0)
+            return null;
+        else
+            return container.Peek();
+    }
+
+    public void popBall()
+    {
+        container.Pop();
+    }
+
+    private void OnMouseUp()
+    {
+        GameManager.handleSelection(this);
     }
 }

@@ -24,10 +24,10 @@ public class LevelFactory : MonoBehaviour
 
     private void instantiateBottles()
     {
-        bottles = new Bottle[bottlesQty];
+        bottles = new Bottle[bottlesQty + 2];
 
         // Populate array with new Bottles
-        for (int i = 0; i < bottlesQty; i++)
+        for (int i = 0; i < bottles.Length; i++)
         {
             GameObject bottleObj = Instantiate(bottlePrefab);
             bottleObj.transform.position = new Vector3(i * bottleMargin, 0, 0);

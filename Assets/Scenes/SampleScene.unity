@@ -289,10 +289,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 438dd351990d3754b82d5c605ee2a4ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bottlesQty: 4
-  ballCount: 4
+  bottlesQty: 6
+  ballCount: 5
   bottleMargin: 2
   bottlePrefab: {fileID: 4314492351849276625, guid: 7b1572e2fbfdbd54a90ed7299f1b59fa,
     type: 3}
   ballPrefab: {fileID: 2560622770393274021, guid: efe807938dc16ca4d84be368e2443416,
     type: 3}
+--- !u!1 &1881169927
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1881169928}
+  m_Layer: 0
+  m_Name: Game Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1881169928
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1881169927}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
