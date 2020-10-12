@@ -289,9 +289,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 438dd351990d3754b82d5c605ee2a4ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bottlesQty: 4
-  ballCount: 4
-  bottleMargin: 2
+  bottlesQty: 6
+  ballCount: 6
+  bottleMargin: 1.5
+  bottleRowQty: 4
   bottlePrefab: {fileID: 4314492351849276625, guid: 7b1572e2fbfdbd54a90ed7299f1b59fa,
     type: 3}
   ballPrefab: {fileID: 2560622770393274021, guid: efe807938dc16ca4d84be368e2443416,
@@ -327,7 +328,7 @@ Transform:
   - {fileID: 864932553}
   - {fileID: 1881169928}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1738351979
 GameObject:
@@ -393,7 +394,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1881169927
 GameObject:

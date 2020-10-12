@@ -6,6 +6,7 @@ public class LevelFactory : MonoBehaviour
     [SerializeField] private int bottlesQty;
     [SerializeField] private int ballCount;
     [SerializeField] private float bottleMargin;
+    [SerializeField] private int bottleRowQty;
     [Header("Prefabs")]
     [SerializeField] private GameObject bottlePrefab = null;
     [SerializeField] private GameObject ballPrefab = null;
@@ -30,7 +31,11 @@ public class LevelFactory : MonoBehaviour
         for (int i = 0; i < bottles.Length; i++)
         {
             GameObject bottleObj = Instantiate(bottlePrefab);
-            bottleObj.transform.position = new Vector3(i * bottleMargin, 0, 0);
+
+            float xPosi = i % bottleRowQty * bottleMargin;
+            float yPosi = (i / bottleRowQty) * -(bottlesQty + 1);
+
+            bottleObj.transform.position = new Vector3(xPosi, yPosi, 0);
 
             Bottle newBottle = bottleObj.GetComponent<Bottle>();
             newBottle.initialize(ballCount, gameManager);
