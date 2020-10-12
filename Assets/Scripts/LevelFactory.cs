@@ -23,6 +23,7 @@ public class LevelFactory : MonoBehaviour
 
     private Bottle[] instantiateBottles(GameManager gameManager)
     {
+        Sprite bottleSprite = Resources.Load<Sprite>("Bottle_1");
         Bottle[] bottles = new Bottle[bottlesQty + 2];
 
         // Populate array with new Bottles
@@ -33,6 +34,7 @@ public class LevelFactory : MonoBehaviour
 
             Bottle newBottle = bottleObj.GetComponent<Bottle>();
             newBottle.initialize(ballCount, gameManager);
+            newBottle.updateBottle(bottleSprite);
             bottles[i] = newBottle;
         }
 

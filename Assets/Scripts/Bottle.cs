@@ -2,18 +2,30 @@
 using System.Linq;
 using UnityEngine;
 
-[RequireComponent(typeof(Transform))]
+[RequireComponent(typeof(BoxCollider2D))]
 public class Bottle : MonoBehaviour
 {
     [SerializeField] private static int containerCapacity;
     [SerializeField] private static GameManager gameManager;
     [SerializeField] private Stack<Ball> container;
+    [SerializeField] private SpriteRenderer spriteRenderer;
+    private BoxCollider2D collider;
 
     public void initialize(int ballCount, GameManager _gameManager)
     {
         if (containerCapacity == 0) containerCapacity = ballCount;
         if (container == null) container = new Stack<Ball>(containerCapacity);
         if (gameManager == null) gameManager = _gameManager;
+
+        collider = GetComponent<BoxCollider2D>();
+    }
+
+    public void updateBottle(Sprite sprite)
+    {
+        spriteRenderer.sprite = sprite;
+        spriteRenderer.size = new Vector2(1, containerCapacity + 1);
+        collider.size = new Vector2(1, containerCapacity);
+        collider.offset = new Vector2(0, containerCapacity / 2);
     }
 
     public bool tryPush(Ball incomingBall)
