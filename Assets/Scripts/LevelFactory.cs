@@ -11,13 +11,17 @@ public class LevelFactory : MonoBehaviour
     [SerializeField] private GameObject bottlePrefab = null;
     [SerializeField] private GameObject ballPrefab = null;
 
-    public Bottle[] generateLevel(GameManager gameManager)
+    public Bottle[] generateLevel(GameManager gameManager, CameraCentralizer cameraCentralizer)
     {
         Bottle[] bottles = instantiateBottles(gameManager);
         Ball[] ballList = createBallList();
 
         shuffleBalls(ref ballList);
         populateBottles(ref bottles, ballList);
+
+        float xMax = (bottleRowQty - 1) * bottleMargin;
+        float yMax = (bottles.Length - 1) / bottleRowQty * -0.5f;
+        cameraCentralizer.centralize(xMax, yMax);
 
         return bottles;
     }
