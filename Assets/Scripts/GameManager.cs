@@ -17,7 +17,6 @@ public class GameManager : MonoBehaviour
     public void initialize(ActionsManager actionsManager)
     {
         bottles = levelFactory.generateLevel(this, cameraCentralizer);
-        bottles = levelFactory.generateLevel(this);
         this.actionsManager = actionsManager;
     }
 
