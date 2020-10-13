@@ -24,8 +24,8 @@ public class Bottle : MonoBehaviour
     {
         spriteRenderer.sprite = sprite;
         spriteRenderer.size = new Vector2(1, containerCapacity + 1);
-        collider.size = new Vector2(1, containerCapacity);
-        collider.offset = new Vector2(0, containerCapacity / 2);
+        collider.size = new Vector2(1.3f, containerCapacity + 0.5f);
+        collider.offset = new Vector2(0, (containerCapacity + 0.5f) / 2 - 0.15f);
     }
 
     public bool tryPush(Ball incomingBall)
