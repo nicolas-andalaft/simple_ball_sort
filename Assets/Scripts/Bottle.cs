@@ -48,9 +48,9 @@ public class Bottle : MonoBehaviour
             return container.Peek();
     }
 
-    public void popBall()
+    public Ball popBall()
     {
-        container.Pop();
+        return container.Pop();
     }
 
     public bool verifyIDs()

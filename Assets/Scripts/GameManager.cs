@@ -3,6 +3,7 @@
 public class GameManager : MonoBehaviour
 {
     private LevelFactory levelFactory;
+    private ActionsManager actionsManager;
     private Bottle selectedBottle;
     private Bottle[] bottles;
 
@@ -11,9 +12,10 @@ public class GameManager : MonoBehaviour
         levelFactory = FindObjectOfType<LevelFactory>();
     }
 
-    public void initialize()
+    public void initialize(ActionsManager actionsManager)
     {
         bottles = levelFactory.generateLevel(this);
+        this.actionsManager = actionsManager;
     }
 
     public void handleSelection(Bottle newBottle)
@@ -25,6 +27,7 @@ public class GameManager : MonoBehaviour
                 selectedBottle.peekBall().setActive(false);
                 selectedBottle.popBall();
 
+                actionsManager.pushAction(selectedBottle, newBottle);
                 verifyBottles();
             }
 
@@ -34,18 +37,21 @@ public class GameManager : MonoBehaviour
             selectBottle(newBottle);
     }
 
+    public void deselectBottle()
+    {
+        if (!selectedBottle)
+            return;
+
+        selectedBottle.peekBall()?.setActive(false);
+        selectedBottle = null;
+    }
+
     private void selectBottle(Bottle newBottle)
     {
         selectedBottle = newBottle;
         selectedBottle.peekBall().setActive(true);
     }
-
-    private void deselectBottle()
-    {
-        selectedBottle.peekBall()?.setActive(false);
-        selectedBottle = null;
-    }
-
+    
     private void verifyBottles()
     {
         bool correct = true;
