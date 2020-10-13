@@ -4,13 +4,13 @@
 public class Ball : MonoBehaviour
 {
     [SerializeField] private int id;
-    [SerializeField] private SpriteRenderer testColor;
+    [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private GameObject testOutline;
 
-    public void initialize(int _id, Color _testColor) 
+    public void initialize(int _id, Sprite sprite) 
     { 
         id = _id;
-        testColor.color = _testColor;
+        spriteRenderer.sprite = sprite;
         setActive(false);
     }
 

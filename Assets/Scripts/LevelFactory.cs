@@ -6,11 +6,12 @@ public class LevelFactory : MonoBehaviour
     [SerializeField] private int bottlesQty;
     [SerializeField] private int ballCount;
     [SerializeField] private float bottleMargin;
+    [SerializeField] private int bottleRowQty;
     [Header("Prefabs")]
     [SerializeField] private GameObject bottlePrefab = null;
     [SerializeField] private GameObject ballPrefab = null;
 
-    public Bottle[] generateLevel(GameManager gameManager)
+    public Bottle[] generateLevel(GameManager gameManager, CameraCentralizer cameraCentralizer)
     {
         Bottle[] bottles = instantiateBottles(gameManager);
         Ball[] ballList = createBallList();
@@ -18,21 +19,31 @@ public class LevelFactory : MonoBehaviour
         shuffleBalls(ref ballList);
         populateBottles(ref bottles, ballList);
 
+        float xMax = (bottleRowQty - 1) * bottleMargin;
+        float yMax = (bottles.Length - 1) / bottleRowQty * -0.5f;
+        cameraCentralizer.centralize(xMax, yMax);
+
         return bottles;
     }
 
     private Bottle[] instantiateBottles(GameManager gameManager)
     {
+        Sprite bottleSprite = Resources.Load<Sprite>("Bottle_1");
         Bottle[] bottles = new Bottle[bottlesQty + 2];
 
         // Populate array with new Bottles
         for (int i = 0; i < bottles.Length; i++)
         {
             GameObject bottleObj = Instantiate(bottlePrefab);
-            bottleObj.transform.position = new Vector3(i * bottleMargin, 0, 0);
+
+            float xPosi = i % bottleRowQty * bottleMargin;
+            float yPosi = (i / bottleRowQty) * -(ballCount + 1);
+
+            bottleObj.transform.position = new Vector3(xPosi, yPosi, 0);
 
             Bottle newBottle = bottleObj.GetComponent<Bottle>();
             newBottle.initialize(ballCount, gameManager);
+            newBottle.updateBottle(bottleSprite);
             bottles[i] = newBottle;
         }
 
@@ -42,16 +53,15 @@ public class LevelFactory : MonoBehaviour
     private Ball[] createBallList()
     {
         Ball[] ballList = new Ball[ballCount * bottlesQty];
+        Sprite[] spriteList = Resources.LoadAll<Sprite>("Ball_1");
 
         // Populate array with balls in order
         for (int i = 0; i < bottlesQty; i++)
         {
-            Color randomColor = new Color(Random.value, Random.value, Random.value);
-
             for (int j = 0; j < ballCount; j++)
             {
                 Ball newBall = Instantiate(ballPrefab).GetComponent<Ball>();
-                newBall.initialize(i, randomColor);
+                newBall.initialize(i, spriteList[i]);
                 ballList[i * ballCount + j] = newBall;
             }
         }

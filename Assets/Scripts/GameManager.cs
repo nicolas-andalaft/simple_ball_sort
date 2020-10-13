@@ -3,6 +3,7 @@
 public class GameManager : MonoBehaviour
 {
     private LevelFactory levelFactory;
+    private CameraCentralizer cameraCentralizer;
     private ActionsManager actionsManager;
     private Bottle selectedBottle;
     private Bottle[] bottles;
@@ -10,10 +11,12 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         levelFactory = FindObjectOfType<LevelFactory>();
+        cameraCentralizer = FindObjectOfType<CameraCentralizer>();
     }
 
     public void initialize(ActionsManager actionsManager)
     {
+        bottles = levelFactory.generateLevel(this, cameraCentralizer);
         bottles = levelFactory.generateLevel(this);
         this.actionsManager = actionsManager;
     }
