@@ -37,7 +37,7 @@ public class LevelFactory : MonoBehaviour
             GameObject bottleObj = Instantiate(bottlePrefab);
 
             float xPosi = i % bottleRowQty * bottleMargin;
-            float yPosi = (i / bottleRowQty) * -(bottlesQty + 1);
+            float yPosi = (i / bottleRowQty) * -(ballCount + 1);
 
             bottleObj.transform.position = new Vector3(xPosi, yPosi, 0);
 
@@ -53,16 +53,15 @@ public class LevelFactory : MonoBehaviour
     private Ball[] createBallList()
     {
         Ball[] ballList = new Ball[ballCount * bottlesQty];
+        Sprite[] spriteList = Resources.LoadAll<Sprite>("Ball_1");
 
         // Populate array with balls in order
         for (int i = 0; i < bottlesQty; i++)
         {
-            Color randomColor = new Color(Random.value, Random.value, Random.value);
-
             for (int j = 0; j < ballCount; j++)
             {
                 Ball newBall = Instantiate(ballPrefab).GetComponent<Ball>();
-                newBall.initialize(i, randomColor);
+                newBall.initialize(i, spriteList[i]);
                 ballList[i * ballCount + j] = newBall;
             }
         }
