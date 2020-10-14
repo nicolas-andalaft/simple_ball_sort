@@ -21,6 +21,6 @@ public class HapticFeedback : MonoBehaviour
 
     private void handheldCall()
     {
-            Handheld.Vibrate();
+        Handheld.Vibrate();
     }
 }

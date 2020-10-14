@@ -4,12 +4,11 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager singleton { get; private set; }
     [SerializeField] private LevelFactory levelFactory;
-    [SerializeField] private CameraCentralizer cameraCentralizer;
     [SerializeField] private ActionsManager actionsManager;
     [SerializeField] private AnimationManager animationManager;
     [SerializeField] private AudioManager audioManager;
     [SerializeField] private HapticFeedback hapticFeedback;
-    [SerializeField] private Bottle selectedBottle;
+    private Bottle selectedBottle;
     private Bottle[] bottles;
 
     private void Awake()
@@ -17,10 +16,9 @@ public class GameManager : MonoBehaviour
         singleton = this;
     }
 
-    public void initialize(ActionsManager actionsManager)
+    public void initialize(Bottle[] bottles)
     {
-        bottles = levelFactory.generateLevel(this, cameraCentralizer);
-        this.actionsManager = actionsManager;
+        this.bottles = bottles;
     }
 
     public void handleSelection(Bottle newBottle)

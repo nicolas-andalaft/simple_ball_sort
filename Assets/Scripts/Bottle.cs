@@ -1,39 +1,37 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 [RequireComponent(typeof(BoxCollider2D))]
 public class Bottle : MonoBehaviour
 {
-    [SerializeField] private static int containerCapacity;
-    [SerializeField] private static GameManager gameManager;
-    [SerializeField] private Stack<Ball> container;
+    public static int containerCapacity { get; set; }
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private GameObject particles;
-    private BoxCollider2D collider;
+    private Stack<Ball> container;
 
-    public void initialize(int ballCount, GameManager _gameManager)
+    public void initialize(Sprite sprite)
     {
-        if (containerCapacity == 0) containerCapacity = ballCount;
-        if (container == null) container = new Stack<Ball>(containerCapacity);
-        if (gameManager == null) gameManager = _gameManager;
-
-        collider = GetComponent<BoxCollider2D>();
+        // Deactivate particles gameobject
         particles.SetActive(false);
+
+        // Alocate ball container
+        if (container == null) 
+            container = new Stack<Ball>(containerCapacity);
+
+        // Set collider size and position
+        BoxCollider2D collider = GetComponent<BoxCollider2D>();
+        collider.size = new Vector2(1.3f, containerCapacity + 0.5f);
+        collider.offset = new Vector2(0, (containerCapacity + 0.5f) / 2 - 0.15f);
+
+        // Set bottle sprite
+        spriteRenderer.sprite = sprite;
+        spriteRenderer.size = new Vector2(1, containerCapacity + 1);
     }
 
     public int getBallQty()
     {
         return container.Count;
-    }
-
-    public void updateBottle(Sprite sprite)
-    {
-        spriteRenderer.sprite = sprite;
-        spriteRenderer.size = new Vector2(1, containerCapacity + 1);
-        collider.size = new Vector2(1.3f, containerCapacity + 0.5f);
-        collider.offset = new Vector2(0, (containerCapacity + 0.5f) / 2 - 0.15f);
     }
 
     public bool tryPush(Ball incomingBall)
@@ -96,6 +94,6 @@ public class Bottle : MonoBehaviour
 
     private void OnMouseUp()
     {
-        gameManager.handleSelection(this);
+        GameManager.singleton.handleSelection(this);
     }
 }
