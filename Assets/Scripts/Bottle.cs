@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -9,6 +10,7 @@ public class Bottle : MonoBehaviour
     [SerializeField] private static GameManager gameManager;
     [SerializeField] private Stack<Ball> container;
     [SerializeField] private SpriteRenderer spriteRenderer;
+    [SerializeField] private GameObject particles;
     private BoxCollider2D collider;
 
     public void initialize(int ballCount, GameManager _gameManager)
@@ -18,6 +20,7 @@ public class Bottle : MonoBehaviour
         if (gameManager == null) gameManager = _gameManager;
 
         collider = GetComponent<BoxCollider2D>();
+        particles.SetActive(false);
     }
 
     public int getBallQty()
@@ -80,16 +83,15 @@ public class Bottle : MonoBehaviour
         if (container.Count != containerCapacity)
             return false;
 
-        bool correct = true;
         int firstID = container.ElementAt(0).getId();
-
-        for (int i = 1; correct && i < containerCapacity; i++)
+        for (int i = 1; i < containerCapacity; i++)
         {
             if (container.ElementAt(i).getId() != firstID)
-                correct = false;
+                return false;
         }
-
-        return correct;
+        
+        particles.SetActive(true);
+        return true;
     }
 
     private void OnMouseUp()
