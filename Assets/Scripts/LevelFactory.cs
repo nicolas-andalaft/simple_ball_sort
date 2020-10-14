@@ -11,6 +11,11 @@ public class LevelFactory : MonoBehaviour
     [SerializeField] private GameObject bottlePrefab = null;
     [SerializeField] private GameObject ballPrefab = null;
 
+    public int getBottlesQty() { return bottlesQty; }
+    public int getBallCount() { return ballCount; }
+    public float getBottleMargin() { return bottleMargin; }
+    public int getBottleRowQty() { return bottleRowQty; }
+
     public Bottle[] generateLevel(GameManager gameManager, CameraCentralizer cameraCentralizer)
     {
         Bottle[] bottles = instantiateBottles(gameManager);
@@ -89,7 +94,7 @@ public class LevelFactory : MonoBehaviour
         for (int i = 0; i < bottlesQty; i++)
         {
             for (int j = 0; j < ballCount; j++)
-                bottles[i].forcePush(ballList[i * ballCount + j]);
+                bottles[i].forcePush(ballList[i * ballCount + j], true);
         }
     }
 }

@@ -20,6 +20,11 @@ public class Bottle : MonoBehaviour
         collider = GetComponent<BoxCollider2D>();
     }
 
+    public int getBallQty()
+    {
+        return container.Count;
+    }
+
     public void updateBottle(Sprite sprite)
     {
         spriteRenderer.sprite = sprite;
@@ -42,14 +47,17 @@ public class Bottle : MonoBehaviour
             return false;
     }
 
-    public void forcePush(Ball incomingBall)
+    public void forcePush(Ball incomingBall, bool forcePosition = false)
     {
         container.Push(incomingBall);
         incomingBall.attach(transform);
 
         // Set ball position
-        Vector3 position = new Vector3(0, container.Count - 1, 0);
-        incomingBall.transform.localPosition = position;
+        if (forcePosition)
+        {
+            Vector3 position = new Vector3(0, container.Count - 1, 0);
+            incomingBall.transform.localPosition = position;
+        }
     }
 
     public Ball peekBall()

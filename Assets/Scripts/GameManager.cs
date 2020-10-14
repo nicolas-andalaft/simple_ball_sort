@@ -5,6 +5,7 @@ public class GameManager : MonoBehaviour
     private LevelFactory levelFactory;
     private CameraCentralizer cameraCentralizer;
     private ActionsManager actionsManager;
+    private AnimationManager animationManager;
     private Bottle selectedBottle;
     private Bottle[] bottles;
 
@@ -12,6 +13,7 @@ public class GameManager : MonoBehaviour
     {
         levelFactory = FindObjectOfType<LevelFactory>();
         cameraCentralizer = FindObjectOfType<CameraCentralizer>();
+        animationManager = FindObjectOfType<AnimationManager>();
     }
 
     public void initialize(ActionsManager actionsManager)
@@ -29,6 +31,9 @@ public class GameManager : MonoBehaviour
                 selectedBottle.peekBall().setActive(false);
                 selectedBottle.popBall();
 
+                animateBall(newBottle.peekBall(), newBottle, levelFactory.getBallCount());
+                animateBall(newBottle.peekBall(), newBottle, newBottle.getBallQty() - 1);
+
                 actionsManager.pushAction(selectedBottle, newBottle);
                 verifyBottles();
             }
@@ -44,14 +49,25 @@ public class GameManager : MonoBehaviour
         if (!selectedBottle)
             return;
 
-        selectedBottle.peekBall()?.setActive(false);
+        Ball selectedBall = selectedBottle.peekBall();
+        if (selectedBall)
+        {
+            selectedBall.setActive(false);
+
+            animateBall(selectedBall, selectedBottle, selectedBottle.getBallQty() - 1);
+        }
+
         selectedBottle = null;
     }
 
     private void selectBottle(Bottle newBottle)
     {
         selectedBottle = newBottle;
-        selectedBottle.peekBall().setActive(true);
+
+        Ball selectedBall = selectedBottle.peekBall();
+        selectedBall.setActive(true);
+
+        animateBall(selectedBall, selectedBottle, levelFactory.getBallCount());
     }
     
     private void verifyBottles()
@@ -65,5 +81,15 @@ public class GameManager : MonoBehaviour
 
         if (correct)
             print("Win");
+    }
+
+    private void animateBall(Ball ball, Bottle destinationBottle, float yOffset)
+    {
+        Vector3 destination = new Vector3(
+            destinationBottle.transform.position.x,
+            destinationBottle.transform.position.y + yOffset,
+            0);
+
+        StartCoroutine(animationManager.animateBall(ball.transform, destination));
     }
 }
