@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour
     private CameraCentralizer cameraCentralizer;
     private ActionsManager actionsManager;
     private AnimationManager animationManager;
+    private AudioManager audioManager;
     private Bottle selectedBottle;
     private Bottle[] bottles;
 
@@ -14,6 +15,7 @@ public class GameManager : MonoBehaviour
         levelFactory = FindObjectOfType<LevelFactory>();
         cameraCentralizer = FindObjectOfType<CameraCentralizer>();
         animationManager = FindObjectOfType<AnimationManager>();
+        audioManager = FindObjectOfType<AudioManager>();
     }
 
     public void initialize(ActionsManager actionsManager)
@@ -28,7 +30,7 @@ public class GameManager : MonoBehaviour
         {
             if (selectedBottle != newBottle && newBottle.tryPush(selectedBottle.peekBall()))
             {
-                selectedBottle.peekBall().setActive(false);
+                setBallState(selectedBottle.peekBall(), false);
                 selectedBottle.popBall();
 
                 StartCoroutine(animationManager.animateBall(
@@ -56,7 +58,7 @@ public class GameManager : MonoBehaviour
         Ball selectedBall = selectedBottle.peekBall();
         if (selectedBall)
         {
-            selectedBall.setActive(false);
+            setBallState(selectedBall, false);
             StartCoroutine(animationManager.animateBall(
                 selectedBall, 
                 selectedBottle, 
@@ -71,7 +73,7 @@ public class GameManager : MonoBehaviour
         selectedBottle = newBottle;
 
         Ball selectedBall = selectedBottle.peekBall();
-        selectedBall.setActive(true);
+        setBallState(selectedBall, true);
 
         StartCoroutine(animationManager.animateBall(
             selectedBall, 
@@ -90,5 +92,14 @@ public class GameManager : MonoBehaviour
 
         if (correct)
             print("Win");
+    }
+
+    private void setBallState(Ball ball, bool value)
+    {
+        ball.setActive(value);
+        if (value)
+            audioManager.playSound(AudioManager.Audio.BallActive);
+        else
+            audioManager.playSound(AudioManager.Audio.BallInactive);
     }
 }

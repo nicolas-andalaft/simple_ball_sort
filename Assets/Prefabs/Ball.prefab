@@ -49,6 +49,8 @@ MonoBehaviour:
   spriteRenderer: {fileID: 2469184856081866772}
   outline: {fileID: 4591615215533294316}
   animator: {fileID: 3435750405826319636}
+  activeSound: {fileID: 0}
+  inactiveSound: {fileID: 0}
 --- !u!95 &3435750405826319636
 Animator:
   serializedVersion: 3
