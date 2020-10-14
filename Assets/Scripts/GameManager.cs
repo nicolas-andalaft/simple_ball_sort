@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
     private ActionsManager actionsManager;
     private AnimationManager animationManager;
     private AudioManager audioManager;
+    private HapticFeedback hapticFeedback;
     private Bottle selectedBottle;
     private Bottle[] bottles;
 
@@ -16,6 +17,7 @@ public class GameManager : MonoBehaviour
         cameraCentralizer = FindObjectOfType<CameraCentralizer>();
         animationManager = FindObjectOfType<AnimationManager>();
         audioManager = FindObjectOfType<AudioManager>();
+        hapticFeedback = FindObjectOfType<HapticFeedback>();
     }
 
     public void initialize(ActionsManager actionsManager)
@@ -26,6 +28,7 @@ public class GameManager : MonoBehaviour
 
     public void handleSelection(Bottle newBottle)
     {
+        hapticFeedback.vibrate(5);
         if (selectedBottle)
         {
             if (selectedBottle != newBottle && newBottle.tryPush(selectedBottle.peekBall()))
