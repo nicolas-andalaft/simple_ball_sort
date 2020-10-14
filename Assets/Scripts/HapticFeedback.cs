@@ -17,7 +17,10 @@ public class HapticFeedback : MonoBehaviour
     {
         if (vibrator != null)
             vibrator.Call("vibrate", duration);
-        else
+    }
+
+    private void handheldCall()
+    {
             Handheld.Vibrate();
     }
 }
