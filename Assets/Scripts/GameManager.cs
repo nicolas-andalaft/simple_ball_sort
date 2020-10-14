@@ -35,10 +35,11 @@ public class GameManager : MonoBehaviour
                 animateBall(newBottle.peekBall(), newBottle, newBottle.getBallQty() - 1);
 
                 actionsManager.pushAction(selectedBottle, newBottle);
+                selectedBottle = null;
                 verifyBottles();
             }
-
-            deselectBottle();
+            else
+                deselectBottle();
         }
         else if (newBottle.peekBall())
             selectBottle(newBottle);
@@ -53,7 +54,6 @@ public class GameManager : MonoBehaviour
         if (selectedBall)
         {
             selectedBall.setActive(false);
-
             animateBall(selectedBall, selectedBottle, selectedBottle.getBallQty() - 1);
         }
 
@@ -90,6 +90,6 @@ public class GameManager : MonoBehaviour
             destinationBottle.transform.position.y + yOffset,
             0);
 
-        StartCoroutine(animationManager.animateBall(ball.transform, destination));
+        StartCoroutine(animationManager.animateBall(ball, destination));
     }
 }

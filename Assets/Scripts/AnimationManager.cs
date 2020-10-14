@@ -6,7 +6,7 @@ public class AnimationManager : MonoBehaviour
     [SerializeField] private float animationSpeed;
     private bool busy = false;
 
-    public IEnumerator animateBall(Transform ball, Vector3 destination)
+    public IEnumerator animateBall(Ball ball, Vector3 destination)
     {
         while(busy) 
         {
@@ -14,11 +14,13 @@ public class AnimationManager : MonoBehaviour
         }
 
         busy = true;
-        while (ball.position.x != destination.x || ball.position.y != destination.y)
+        while (ball.transform.position.x != destination.x || ball.transform.position.y != destination.y)
         {
-            ball.position = Vector3.MoveTowards(ball.position, destination, animationSpeed);
+            ball.transform.position = Vector3.MoveTowards(ball.transform.position, destination, animationSpeed);
             yield return new WaitForFixedUpdate();
         }
+
+        ball.animate();
         busy = false;
     }
 }
