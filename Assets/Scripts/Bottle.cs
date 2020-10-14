@@ -92,6 +92,11 @@ public class Bottle : MonoBehaviour
         return true;
     }
 
+    public void deactivate()
+    {
+        GetComponent<BoxCollider2D>().enabled = false;
+    }
+
     private void OnMouseUp()
     {
         GameManager.singleton.handleSelection(this);

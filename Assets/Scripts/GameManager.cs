@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
@@ -9,7 +10,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private AudioManager audioManager;
     [SerializeField] private HapticFeedback hapticFeedback;
     private Bottle selectedBottle;
-    private Bottle[] bottles;
+    private List<Bottle> bottles;
 
     private void Awake()
     {
@@ -18,7 +19,7 @@ public class GameManager : MonoBehaviour
 
     public void initialize(Bottle[] bottles)
     {
-        this.bottles = bottles;
+        this.bottles = new List<Bottle>(bottles);
     }
 
     public void handleSelection(Bottle newBottle)
@@ -38,8 +39,8 @@ public class GameManager : MonoBehaviour
                     newBottle.getBallQty() - 1));
 
                 actionsManager.pushAction(selectedBottle, newBottle);
+                verifyBottle(newBottle);
                 selectedBottle = null;
-                verifyBottles();
             }
             else
                 deselectBottle();
@@ -79,16 +80,15 @@ public class GameManager : MonoBehaviour
             levelFactory.getBallCount()));
     }
     
-    private void verifyBottles()
+    private void verifyBottle(Bottle bottle)
     {
-        bool correct = true;
-        for (int i = 0; correct && i < bottles.Length; i++)
+        if (bottle.verifyIDs())
         {
-            if (!bottles[i].verifyIDs())
-                correct = false;
+            bottle.deactivate();
+            bottles.Remove(bottle);
         }
 
-        if (correct)
+        if (bottles.Count == 2)
             print("Win");
     }
 
