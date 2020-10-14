@@ -25,43 +25,58 @@ public class GameManager : MonoBehaviour
     public void handleSelection(Bottle newBottle)
     {
         hapticFeedback.vibrate(5);
+
         if (selectedBottle)
         {
-            if (selectedBottle != newBottle && newBottle.tryPush(selectedBottle.peekBall()))
+            if (selectedBottle != newBottle && newBottle.canPush(selectedBottle.peekBall()))
             {
-                setBallState(selectedBottle.peekBall(), false);
-                selectedBottle.popBall();
-
-                StartCoroutine(animationManager.animateBall(
-                    newBottle.peekBall(), 
-                    newBottle, 
-                    levelFactory.getBallCount(), 
-                    newBottle.getBallQty() - 1));
-
-                actionsManager.pushAction(selectedBottle, newBottle);
-                verifyBottle(newBottle);
+                // Ball is able to swap bottles
+                swapBalls(selectedBottle, newBottle);
                 selectedBottle = null;
             }
             else
-                deselectBottle();
+                cancelBottleSelection();
         }
+        // Set bottle selection
         else if (newBottle.peekBall())
             selectBottle(newBottle);
     }
 
-    public void deselectBottle()
+    private void swapBalls(Bottle oldBottle, Bottle newBottle)
     {
-        if (!selectedBottle)
-            return;
+        // Swap bottles
+        Ball swapBall = oldBottle.popBall();
+        newBottle.forcePush(swapBall);
+
+        // Deselect ball
+        setBallState(swapBall, false);
+
+        // Animate ball
+        animationManager.animateBall(
+            newBottle.peekBall(),
+            newBottle,
+            levelFactory.getBallCount(),
+            newBottle.getBallQty() - 1);
+
+        // Record action
+        actionsManager.pushAction(oldBottle, newBottle);
+
+        // Verify bottle sorting order
+        verifyBottle(newBottle);
+    }
+
+    public void cancelBottleSelection()
+    {
+        // Used when a ball is deselected but doesnt change bottles
 
         Ball selectedBall = selectedBottle.peekBall();
         if (selectedBall)
         {
             setBallState(selectedBall, false);
-            StartCoroutine(animationManager.animateBall(
+            animationManager.animateBall(
                 selectedBall, 
                 selectedBottle, 
-                selectedBottle.getBallQty() - 1));
+                selectedBottle.getBallQty() - 1);
         }
 
         selectedBottle = null;
@@ -69,32 +84,40 @@ public class GameManager : MonoBehaviour
 
     private void selectBottle(Bottle newBottle)
     {
+        // Change selected bottle
         selectedBottle = newBottle;
 
+        // Outline ball
         Ball selectedBall = selectedBottle.peekBall();
         setBallState(selectedBall, true);
 
-        StartCoroutine(animationManager.animateBall(
+        // Animate ball
+        animationManager.animateBall(
             selectedBall, 
             selectedBottle, 
-            levelFactory.getBallCount()));
+            levelFactory.getBallCount());
     }
     
     private void verifyBottle(Bottle bottle)
     {
+        // Verify if bottle is sorted correctly
         if (bottle.verifyIDs())
         {
             bottle.deactivate();
             bottles.Remove(bottle);
         }
 
+        // 2 is the default empty bottles value
         if (bottles.Count == 2)
             print("Win");
     }
 
     private void setBallState(Ball ball, bool value)
     {
+        // Set outline state
         ball.setActive(value);
+
+        // Play a sound
         if (value)
             audioManager.playSound(AudioManager.Audio.BallActive);
         else

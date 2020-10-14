@@ -1,11 +1,17 @@
 ﻿using System.Collections;
+using System.Runtime.InteropServices.ComTypes;
 using UnityEngine;
 
 public class AnimationManager : MonoBehaviour
 {
     [SerializeField] private float animationSpeed;
 
-    public IEnumerator animateBall(Ball ball, Bottle destinationBottle, params float[] positions)
+    public void animateBall(Ball ball, Bottle destinationBottle, params float[] positions)
+    {
+        StartCoroutine(animate(ball, destinationBottle, positions));
+    }
+
+    public IEnumerator animate(Ball ball, Bottle destinationBottle, params float[] positions)
     {
         foreach (float offset in positions)
         {

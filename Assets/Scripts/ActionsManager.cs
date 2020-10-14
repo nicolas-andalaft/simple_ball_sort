@@ -30,7 +30,7 @@ public class ActionsManager : MonoBehaviour
 
         Action undoAction = popAction();
 
-        gameManager.deselectBottle();
+        gameManager.cancelBottleSelection();
         undoAction.poped.forcePush(undoAction.pushed.popBall());
     }
 

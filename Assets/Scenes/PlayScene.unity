@@ -721,6 +721,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63272a77761a4a043926763e5a164b6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameManager: {fileID: 1881169929}
+  actionsManager: {fileID: 1910033733}
+  levelFactory: {fileID: 864932554}
+  cameraCentralizer: {fileID: 519420030}
 --- !u!4 &737439840
 Transform:
   m_ObjectHideFlags: 0
@@ -779,9 +783,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bottlesQty: 6
-  ballCount: 4
-  bottleMargin: 1.75
   bottleRowQty: 4
+  bottleMargin: 1.75
+  ballCount: 4
   bottlePrefab: {fileID: 4314492351849276625, guid: 7b1572e2fbfdbd54a90ed7299f1b59fa,
     type: 3}
   ballPrefab: {fileID: 2560622770393274021, guid: efe807938dc16ca4d84be368e2443416,
@@ -1520,6 +1524,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30835e3bf47f67941ba3cc73941ef7a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelFactory: {fileID: 864932554}
+  actionsManager: {fileID: 1910033733}
+  animationManager: {fileID: 883968780}
+  audioManager: {fileID: 42339723}
+  hapticFeedback: {fileID: 1505269473}
 --- !u!1 &1910033731
 GameObject:
   m_ObjectHideFlags: 0

@@ -34,16 +34,13 @@ public class Bottle : MonoBehaviour
         return container.Count;
     }
 
-    public bool tryPush(Ball incomingBall)
+    public bool canPush(Ball incomingBall)
     {
         if (!incomingBall || container.Count >= containerCapacity) 
             return false;
 
         if (container.Count == 0 || container.Peek().getId() == incomingBall.getId())
-        {
-            forcePush(incomingBall);
             return true;
-        }
         else
             return false;
     }
