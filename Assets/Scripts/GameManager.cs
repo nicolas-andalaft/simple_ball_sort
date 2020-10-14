@@ -2,22 +2,19 @@
 
 public class GameManager : MonoBehaviour
 {
-    private LevelFactory levelFactory;
-    private CameraCentralizer cameraCentralizer;
-    private ActionsManager actionsManager;
-    private AnimationManager animationManager;
-    private AudioManager audioManager;
-    private HapticFeedback hapticFeedback;
-    private Bottle selectedBottle;
+    public static GameManager singleton { get; private set; }
+    [SerializeField] private LevelFactory levelFactory;
+    [SerializeField] private CameraCentralizer cameraCentralizer;
+    [SerializeField] private ActionsManager actionsManager;
+    [SerializeField] private AnimationManager animationManager;
+    [SerializeField] private AudioManager audioManager;
+    [SerializeField] private HapticFeedback hapticFeedback;
+    [SerializeField] private Bottle selectedBottle;
     private Bottle[] bottles;
 
     private void Awake()
     {
-        levelFactory = FindObjectOfType<LevelFactory>();
-        cameraCentralizer = FindObjectOfType<CameraCentralizer>();
-        animationManager = FindObjectOfType<AnimationManager>();
-        audioManager = FindObjectOfType<AudioManager>();
-        hapticFeedback = FindObjectOfType<HapticFeedback>();
+        singleton = this;
     }
 
     public void initialize(ActionsManager actionsManager)
