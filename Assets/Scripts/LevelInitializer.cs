@@ -2,18 +2,17 @@
 
 public class LevelInitializer : MonoBehaviour
 {
-    private GameManager gameManager;
-    private ActionsManager actionsManager;
-
-    private void Awake()
-    {
-        gameManager = FindObjectOfType<GameManager>();
-        actionsManager = FindObjectOfType<ActionsManager>();
-    }
+    [SerializeField] private GameManager gameManager;
+    [SerializeField] private ActionsManager actionsManager;
+    [SerializeField] private LevelFactory levelFactory;
+    [SerializeField] private CameraCentralizer cameraCentralizer;
 
     private void Start()
     {
-        gameManager.initialize(actionsManager);
-        actionsManager.initialize(gameManager);
+        Bottle[] bottles = levelFactory.generateLevel();
+        cameraCentralizer.centralize(levelFactory);
+
+        gameManager.initialize(bottles);
+        actionsManager.initialize();
     }
 }

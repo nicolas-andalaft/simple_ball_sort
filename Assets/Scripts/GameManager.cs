@@ -1,71 +1,82 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    private LevelFactory levelFactory;
-    private CameraCentralizer cameraCentralizer;
-    private ActionsManager actionsManager;
-    private AnimationManager animationManager;
-    private AudioManager audioManager;
-    private HapticFeedback hapticFeedback;
+    public static GameManager singleton { get; private set; }
+    [SerializeField] private LevelFactory levelFactory;
+    [SerializeField] private ActionsManager actionsManager;
+    [SerializeField] private AnimationManager animationManager;
+    [SerializeField] private AudioManager audioManager;
+    [SerializeField] private HapticFeedback hapticFeedback;
     private Bottle selectedBottle;
-    private Bottle[] bottles;
+    private List<Bottle> bottles;
 
     private void Awake()
     {
-        levelFactory = FindObjectOfType<LevelFactory>();
-        cameraCentralizer = FindObjectOfType<CameraCentralizer>();
-        animationManager = FindObjectOfType<AnimationManager>();
-        audioManager = FindObjectOfType<AudioManager>();
-        hapticFeedback = FindObjectOfType<HapticFeedback>();
+        singleton = this;
     }
 
-    public void initialize(ActionsManager actionsManager)
+    public void initialize(Bottle[] bottles)
     {
-        bottles = levelFactory.generateLevel(this, cameraCentralizer);
-        this.actionsManager = actionsManager;
+        this.bottles = new List<Bottle>(bottles);
     }
 
     public void handleSelection(Bottle newBottle)
     {
         hapticFeedback.vibrate(5);
+
         if (selectedBottle)
         {
-            if (selectedBottle != newBottle && newBottle.tryPush(selectedBottle.peekBall()))
+            if (selectedBottle != newBottle && newBottle.canPush(selectedBottle.peekBall()))
             {
-                setBallState(selectedBottle.peekBall(), false);
-                selectedBottle.popBall();
-
-                StartCoroutine(animationManager.animateBall(
-                    newBottle.peekBall(), 
-                    newBottle, 
-                    levelFactory.getBallCount(), 
-                    newBottle.getBallQty() - 1));
-
-                actionsManager.pushAction(selectedBottle, newBottle);
+                // Ball is able to swap bottles
+                swapBalls(selectedBottle, newBottle);
                 selectedBottle = null;
-                verifyBottles();
             }
             else
-                deselectBottle();
+                cancelBottleSelection();
         }
+        // Set bottle selection
         else if (newBottle.peekBall())
             selectBottle(newBottle);
     }
 
-    public void deselectBottle()
+    private void swapBalls(Bottle oldBottle, Bottle newBottle)
     {
-        if (!selectedBottle)
-            return;
+        // Swap bottles
+        Ball swapBall = oldBottle.popBall();
+        newBottle.forcePush(swapBall);
+
+        // Deselect ball
+        setBallState(swapBall, false);
+
+        // Animate ball
+        animationManager.animateBall(
+            newBottle.peekBall(),
+            newBottle,
+            levelFactory.getBallCount(),
+            newBottle.getBallQty() - 1);
+
+        // Record action
+        actionsManager.pushAction(oldBottle, newBottle);
+
+        // Verify bottle sorting order
+        verifyBottle(newBottle);
+    }
+
+    public void cancelBottleSelection()
+    {
+        // Used when a ball is deselected but doesnt change bottles
 
         Ball selectedBall = selectedBottle.peekBall();
         if (selectedBall)
         {
             setBallState(selectedBall, false);
-            StartCoroutine(animationManager.animateBall(
+            animationManager.animateBall(
                 selectedBall, 
                 selectedBottle, 
-                selectedBottle.getBallQty() - 1));
+                selectedBottle.getBallQty() - 1);
         }
 
         selectedBottle = null;
@@ -73,33 +84,40 @@ public class GameManager : MonoBehaviour
 
     private void selectBottle(Bottle newBottle)
     {
+        // Change selected bottle
         selectedBottle = newBottle;
 
+        // Outline ball
         Ball selectedBall = selectedBottle.peekBall();
         setBallState(selectedBall, true);
 
-        StartCoroutine(animationManager.animateBall(
+        // Animate ball
+        animationManager.animateBall(
             selectedBall, 
             selectedBottle, 
-            levelFactory.getBallCount()));
+            levelFactory.getBallCount());
     }
     
-    private void verifyBottles()
+    private void verifyBottle(Bottle bottle)
     {
-        bool correct = true;
-        for (int i = 0; correct && i < bottles.Length; i++)
+        // Verify if bottle is sorted correctly
+        if (bottle.verifyIDs())
         {
-            if (!bottles[i].verifyIDs())
-                correct = false;
+            bottle.deactivate();
+            bottles.Remove(bottle);
         }
 
-        if (correct)
+        // 2 is the default empty bottles value
+        if (bottles.Count == 2)
             print("Win");
     }
 
     private void setBallState(Ball ball, bool value)
     {
+        // Set outline state
         ball.setActive(value);
+
+        // Play a sound
         if (value)
             audioManager.playSound(AudioManager.Audio.BallActive);
         else

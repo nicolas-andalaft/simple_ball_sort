@@ -8,10 +8,10 @@ public class ActionsManager : MonoBehaviour
     private GameManager gameManager;
     private List<Action> actions;
 
-    public void initialize(GameManager gameManager)
+    public void initialize()
     {
         actions = new List<Action>(maxUndos);
-        this.gameManager = gameManager;
+        gameManager = GameManager.singleton;
     }
 
     public void pushAction(Bottle poped, Bottle pushed)
@@ -30,7 +30,7 @@ public class ActionsManager : MonoBehaviour
 
         Action undoAction = popAction();
 
-        gameManager.deselectBottle();
+        gameManager.cancelBottleSelection();
         undoAction.poped.forcePush(undoAction.pushed.popBall());
     }
 

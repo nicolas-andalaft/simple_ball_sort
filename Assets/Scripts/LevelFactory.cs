@@ -4,9 +4,9 @@ public class LevelFactory : MonoBehaviour
 {
     [Header("Values")]
     [SerializeField] private int bottlesQty;
-    [SerializeField] private int ballCount;
-    [SerializeField] private float bottleMargin;
     [SerializeField] private int bottleRowQty;
+    [SerializeField] private float bottleMargin;
+    [SerializeField] private int ballCount;
     [Header("Prefabs")]
     [SerializeField] private GameObject bottlePrefab = null;
     [SerializeField] private GameObject ballPrefab = null;
@@ -16,22 +16,20 @@ public class LevelFactory : MonoBehaviour
     public float getBottleMargin() { return bottleMargin; }
     public int getBottleRowQty() { return bottleRowQty; }
 
-    public Bottle[] generateLevel(GameManager gameManager, CameraCentralizer cameraCentralizer)
+    public Bottle[] generateLevel()
     {
-        Bottle[] bottles = instantiateBottles(gameManager);
+        Bottle.containerCapacity = ballCount;
+
+        Bottle[] bottles = instantiateBottles();
         Ball[] ballList = createBallList();
 
         shuffleBalls(ref ballList);
         populateBottles(ref bottles, ballList);
 
-        float xMax = (bottleRowQty - 1) * bottleMargin;
-        float yMax = (bottles.Length - 1) / bottleRowQty * -0.5f;
-        cameraCentralizer.centralize(xMax, yMax);
-
         return bottles;
     }
 
-    private Bottle[] instantiateBottles(GameManager gameManager)
+    private Bottle[] instantiateBottles()
     {
         Sprite bottleSprite = Resources.Load<Sprite>("Bottle_1");
         Bottle[] bottles = new Bottle[bottlesQty + 2];
@@ -47,8 +45,7 @@ public class LevelFactory : MonoBehaviour
             bottleObj.transform.position = new Vector3(xPosi, yPosi, 0);
 
             Bottle newBottle = bottleObj.GetComponent<Bottle>();
-            newBottle.initialize(ballCount, gameManager);
-            newBottle.updateBottle(bottleSprite);
+            newBottle.initialize(bottleSprite);
             bottles[i] = newBottle;
         }
 
