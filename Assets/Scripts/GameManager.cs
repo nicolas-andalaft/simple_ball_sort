@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -9,6 +10,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private AnimationManager animationManager;
     [SerializeField] private AudioManager audioManager;
     [SerializeField] private HapticFeedback hapticFeedback;
+    [SerializeField] private GameObject winAlert;
     private Bottle selectedBottle;
     private List<Bottle> bottles;
 
@@ -109,7 +111,13 @@ public class GameManager : MonoBehaviour
 
         // 2 is the default empty bottles value
         if (bottles.Count == 2)
-            print("Win");
+            StartCoroutine(showWinDialog());
+    }
+
+    private IEnumerator showWinDialog()
+    {
+        yield return new WaitForSeconds(0.3f);
+        winAlert.SetActive(true);
     }
 
     private void setBallState(Ball ball, bool value)
