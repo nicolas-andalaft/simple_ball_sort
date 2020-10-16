@@ -9,13 +9,18 @@ public class GameSceneManager : MonoBehaviour
         SceneManager.LoadScene(currentScene.name);
     }
 
-    public void loadMenuScene()
+    public void loadMainMenuScene()
     {
         SceneManager.LoadScene(0);
     }
 
-    public void loadPlayScene()
+    public void loadThemesMenuScene()
     {
         SceneManager.LoadScene(1);
+    }
+
+    public void loadPlayScene()
+    {
+        SceneManager.LoadScene(2);
     }
 }
