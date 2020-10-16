@@ -15,8 +15,8 @@ public class ThemesManager : MonoBehaviour
 
     private void instantiateMenu()
     {
-        instantiatePanel("Ball");
-        instantiatePanel("Bottle");
+        instantiatePanel("Balls");
+        instantiatePanel("Bottles");
     }
 
     private void instantiatePanel(string resourceName)
@@ -25,7 +25,7 @@ public class ThemesManager : MonoBehaviour
         GameObject panel = Instantiate(themePanel, themePanelsSlot);
 
         ThemePanel themePanelScript = panel.GetComponent<ThemePanel>();
-        themePanelScript.setTitle(resourceName + "s");
+        themePanelScript.setTitle(resourceName);
 
         Transform slot = themePanelScript.getContentSlot();
 
@@ -34,7 +34,7 @@ public class ThemesManager : MonoBehaviour
             slot = slot.GetChild(0);
 
         // Sequencial search for resources
-        int i = 1;
+        int i = 0;
         Sprite[] sprites = Resources.LoadAll<Sprite>(resourceName + "_" + i);
 
         while (sprites.Length > 0)
