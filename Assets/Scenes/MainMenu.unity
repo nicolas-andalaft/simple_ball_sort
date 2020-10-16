@@ -544,6 +544,36 @@ PrefabInstance:
       propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4414585507059062863, guid: 7fb8b299a4717204bbd043bd52c536b6,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4414585507059062863, guid: 7fb8b299a4717204bbd043bd52c536b6,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4414585507059062863, guid: 7fb8b299a4717204bbd043bd52c536b6,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4414585507059062863, guid: 7fb8b299a4717204bbd043bd52c536b6,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 368709806}
+    - target: {fileID: 4414585507059062863, guid: 7fb8b299a4717204bbd043bd52c536b6,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: loadThemesMenuScene
+      objectReference: {fileID: 0}
+    - target: {fileID: 4414585507059062863, guid: 7fb8b299a4717204bbd043bd52c536b6,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 4414585507854792741, guid: 7fb8b299a4717204bbd043bd52c536b6,
         type: 3}
       propertyPath: m_LocalPosition.x
