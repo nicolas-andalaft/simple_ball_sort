@@ -55,6 +55,10 @@ public class ThemesManager : MonoBehaviour
         while (slot.childCount != 0)
             slot = slot.GetChild(0);
 
+        // Checks if resource has multiple sprites
+        if (sprites.Length == 1)
+            slot.GetComponent<GridLayoutGroup>().enabled = false;
+
         // Instantitate theme items
         for (int i = 0; i < sprites.Length; i++)
             instantitateThemeItem(slot, sprites[i]);
@@ -63,6 +67,8 @@ public class ThemesManager : MonoBehaviour
     private void instantitateThemeItem(Transform parent, Sprite sprite)
     {
         GameObject item = Instantiate(themeItem, parent);
+
         item.GetComponent<Image>().sprite = sprite;
+        //item.GetComponent<AspectRatioFitter>().aspectRatio = aspectRatio;
     }
 }
