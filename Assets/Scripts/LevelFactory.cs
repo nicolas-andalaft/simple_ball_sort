@@ -32,7 +32,6 @@ public class LevelFactory : MonoBehaviour
     private Bottle[] instantiateBottles()
     {
         string resourceName = PlayerPrefs.GetString("Bottles");
-        Debug.Log(resourceName);
         Sprite bottleSprite = Resources.Load<Sprite>(resourceName);
 
         Bottle[] bottles = new Bottle[bottlesQty + 2];
