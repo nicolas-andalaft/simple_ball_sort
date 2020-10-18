@@ -3,6 +3,10 @@ using UnityEngine.UI;
 
 public class ThemesManager : MonoBehaviour
 {
+    public static Color _activeColor { get; private set; }
+    public static Color _inactiveColor { get; private set; }
+    [SerializeField] private Color inactiveColor;
+    [SerializeField] private Color activeColor;
     [SerializeField] private RectTransform themePanelsSlot;
     [SerializeField] private GameObject themePanel;
     [SerializeField] private GameObject themeContainer;
@@ -10,7 +14,14 @@ public class ThemesManager : MonoBehaviour
 
     private void Start()
     {
+        _activeColor = activeColor;
+        _inactiveColor = inactiveColor;
         instantiateMenu();
+    }
+
+    public void updatePrefs()
+    {
+        PlayerPrefs.Save();
     }
 
     private void instantiateMenu()
@@ -39,17 +50,24 @@ public class ThemesManager : MonoBehaviour
 
         while (sprites.Length > 0)
         {
-            instantiateThemeContainer(slot, sprites);
+            var themeContainerScript = instantiateThemeContainer(slot, sprites);
+            themeContainerScript.setThemePanel(themePanelScript);
+            themeContainerScript.setResourceName(resourceName);
+            themeContainerScript.setPackName(resourceName + "_" + i);
+
+            if (PlayerPrefs.GetString(resourceName) == (resourceName + "_" + i))
+                themeContainerScript.setPack();
 
             i++;
             sprites = Resources.LoadAll<Sprite>(resourceName + "_" + i);
         }
     }
 
-    private void instantiateThemeContainer(Transform parent, Sprite[] sprites)
+    private ThemeContainer instantiateThemeContainer(Transform parent, Sprite[] sprites)
     {
         // Instantiate theme container
         Transform slot = Instantiate(themeContainer, parent).transform;
+        var themeContainerScript = slot.GetComponent<ThemeContainer>();
 
         // Get last child
         while (slot.childCount != 0)
@@ -62,6 +80,8 @@ public class ThemesManager : MonoBehaviour
         // Instantitate theme items
         for (int i = 0; i < sprites.Length; i++)
             instantitateThemeItem(slot, sprites[i]);
+
+        return themeContainerScript;
     }
 
     private void instantitateThemeItem(Transform parent, Sprite sprite)
@@ -69,6 +89,5 @@ public class ThemesManager : MonoBehaviour
         GameObject item = Instantiate(themeItem, parent);
 
         item.GetComponent<Image>().sprite = sprite;
-        //item.GetComponent<AspectRatioFitter>().aspectRatio = aspectRatio;
     }
 }

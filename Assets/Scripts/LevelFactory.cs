@@ -31,7 +31,10 @@ public class LevelFactory : MonoBehaviour
 
     private Bottle[] instantiateBottles()
     {
-        Sprite bottleSprite = Resources.Load<Sprite>("Bottles_0");
+        string resourceName = PlayerPrefs.GetString("Bottles");
+        Debug.Log(resourceName);
+        Sprite bottleSprite = Resources.Load<Sprite>(resourceName);
+
         Bottle[] bottles = new Bottle[bottlesQty + 2];
 
         // Populate array with new Bottles
@@ -54,8 +57,10 @@ public class LevelFactory : MonoBehaviour
 
     private Ball[] createBallList()
     {
+        string resourceName = PlayerPrefs.GetString("Balls");
+        Sprite[] spriteList = Resources.LoadAll<Sprite>(resourceName);
+
         Ball[] ballList = new Ball[ballCount * bottlesQty];
-        Sprite[] spriteList = Resources.LoadAll<Sprite>("Balls_0");
 
         // Populate array with balls in order
         for (int i = 0; i < bottlesQty; i++)

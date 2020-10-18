@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 public class ThemePanel : MonoBehaviour
 {
+    public Image selectedPackImage;
     [SerializeField] private Transform content;
     [SerializeField] private Text title;
 
