@@ -59,21 +59,43 @@ namespace GamePlayerPrefs
             return hasKey;
         }
 
+        public static void checkAllPrefs()
+        {
+            checkPref(Prefs.Balls, Prefs.Balls + "_0");
+            checkPref(Prefs.Bottles, Prefs.Bottles + "_0");
+
+            checkPref(Prefs.Volume, true);
+            checkPref(Prefs.Vibration, true);
+
+            checkPref(Prefs.BallTypes, 3);
+            checkPref(Prefs.BallCount, 4);
+        }
+
+        public void deleteAllPrefs()
+        {
+            PlayerPrefs.DeleteAll();
+            checkAllPrefs();
+            savePlayerPrefs();
+
+            updateToggles();
+            updateSliders();
+        }
+
+        public void savePlayerPrefs()
+        {
+            PlayerPrefs.Save();
+        }
+
         public void updateToggles()
         {
-            volumeToggle.isOn = AudioManager.isActive;
-            vibrationToggle.isOn = HapticFeedback.isActive;
+            volumeToggle.isOn = (bool)getPrefs(Prefs.Volume);
+            vibrationToggle.isOn = (bool)getPrefs(Prefs.Vibration);
         }
 
         public void updateSliders()
         {
             ballTypesSlider.updateIndicator((int)getPrefs(Prefs.BallTypes));
             ballQtySlider.updateIndicator((int)getPrefs(Prefs.BallCount));
-        }
-
-        public void savePlayerPrefs()
-        {
-            PlayerPrefs.Save();
         }
 
         public void setBallTypesPref(Slider slider)
