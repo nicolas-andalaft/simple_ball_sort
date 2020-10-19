@@ -44,7 +44,7 @@ public class GameManager : MonoBehaviour
             selectBottle(newBottle);
     }
 
-    private void swapBalls(Bottle oldBottle, Bottle newBottle)
+    public void swapBalls(Bottle oldBottle, Bottle newBottle, bool recordAction = true)
     {
         // Swap bottles
         Ball swapBall = oldBottle.popBall();
@@ -61,7 +61,8 @@ public class GameManager : MonoBehaviour
             newBottle.getBallQty() - 1);
 
         // Record action
-        actionsManager.pushAction(oldBottle, newBottle);
+        if (recordAction)
+            actionsManager.pushAction(oldBottle, newBottle);
 
         // Verify bottle sorting order
         verifyBottle(newBottle);
@@ -71,7 +72,7 @@ public class GameManager : MonoBehaviour
     {
         // Used when a ball is deselected but doesnt change bottles
 
-        Ball selectedBall = selectedBottle.peekBall();
+        Ball selectedBall = selectedBottle?.peekBall();
         if (selectedBall)
         {
             setBallState(selectedBall, false);
