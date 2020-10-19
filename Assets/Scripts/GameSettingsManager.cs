@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace GamePlayerPrefs
 {
-    public enum Prefs { Balls, Bottles, Volume, Vibration, BallTypes, BallQty }
+    public enum Prefs { Balls, Bottles, Volume, Vibration, BallTypes, BallCount }
 
     public class GameSettingsManager : MonoBehaviour
     {
@@ -27,7 +27,7 @@ namespace GamePlayerPrefs
             }
 
             // Int options
-            if (pref == Prefs.BallTypes || pref == Prefs.BallQty)
+            if (pref == Prefs.BallTypes || pref == Prefs.BallCount)
                 return PlayerPrefs.GetInt(pref.ToString());
 
             // Else
@@ -45,7 +45,7 @@ namespace GamePlayerPrefs
                 PlayerPrefs.SetInt(pref.ToString(), (bool)value ? 1 : 0);
 
             // Int options
-            if (pref == Prefs.BallTypes || pref == Prefs.BallQty)
+            if (pref == Prefs.BallTypes || pref == Prefs.BallCount)
                 PlayerPrefs.SetInt(pref.ToString(), (int)value);
         }
 
@@ -68,7 +68,7 @@ namespace GamePlayerPrefs
         public void updateSliders()
         {
             ballTypesSlider.updateIndicator((int)getPrefs(Prefs.BallTypes));
-            ballQtySlider.updateIndicator((int)getPrefs(Prefs.BallQty));
+            ballQtySlider.updateIndicator((int)getPrefs(Prefs.BallCount));
         }
 
         public void savePlayerPrefs()
@@ -81,9 +81,9 @@ namespace GamePlayerPrefs
             setPrefs(Prefs.BallTypes, (int)slider.value);
         }
 
-        public void setBallQtyPref(Slider slider)
+        public void setBallCountPref(Slider slider)
         {
-            setPrefs(Prefs.BallQty, (int)slider.value);
+            setPrefs(Prefs.BallCount, (int)slider.value);
         }
     }
 }

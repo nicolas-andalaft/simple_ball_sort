@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using GamePlayerPrefs;
 
 public class LevelInitializer : MonoBehaviour
 {
@@ -9,6 +10,9 @@ public class LevelInitializer : MonoBehaviour
 
     private void Start()
     {
+        levelFactory.ballTypes = (int)GameSettingsManager.getPrefs(Prefs.BallTypes);
+        levelFactory.ballCount = (int)GameSettingsManager.getPrefs(Prefs.BallCount);
+
         Bottle[] bottles = levelFactory.generateLevel();
         cameraCentralizer.centralize(levelFactory);
 

@@ -19,6 +19,6 @@ public class AppInitializer : MonoBehaviour
         GameSettingsManager.checkPref(Prefs.Vibration, 1);
 
         GameSettingsManager.checkPref(Prefs.BallTypes, 3);
-        GameSettingsManager.checkPref(Prefs.BallQty, 4);
+        GameSettingsManager.checkPref(Prefs.BallCount, 4);
     }
 }

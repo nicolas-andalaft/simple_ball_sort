@@ -677,7 +677,7 @@ PrefabInstance:
     - target: {fileID: 1798687278506819392, guid: 56d5dffc8bd1f244791591ea08c4cbc9,
         type: 3}
       propertyPath: m_Name
-      value: Ball Qty
+      value: Ball Count
       objectReference: {fileID: 0}
     - target: {fileID: 3389066329231675401, guid: 56d5dffc8bd1f244791591ea08c4cbc9,
         type: 3}
@@ -712,7 +712,7 @@ PrefabInstance:
     - target: {fileID: 4523428098003968780, guid: 56d5dffc8bd1f244791591ea08c4cbc9,
         type: 3}
       propertyPath: m_Text
-      value: Ball qty
+      value: Ball count
       objectReference: {fileID: 0}
     - target: {fileID: 5895804752720176324, guid: 56d5dffc8bd1f244791591ea08c4cbc9,
         type: 3}
@@ -3654,7 +3654,7 @@ PrefabInstance:
     - target: {fileID: 1798687278506819392, guid: 56d5dffc8bd1f244791591ea08c4cbc9,
         type: 3}
       propertyPath: m_Name
-      value: Ball types
+      value: Ball Types
       objectReference: {fileID: 0}
     - target: {fileID: 3389066329231675401, guid: 56d5dffc8bd1f244791591ea08c4cbc9,
         type: 3}

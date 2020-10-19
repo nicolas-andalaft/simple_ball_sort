@@ -3,18 +3,13 @@
 public class LevelFactory : MonoBehaviour
 {
     [Header("Values")]
-    [SerializeField] private int bottlesQty;
-    [SerializeField] private int bottleRowQty;
-    [SerializeField] private float bottleMargin;
-    [SerializeField] private int ballCount;
+    public int ballTypes;
+    public int ballCount;
+    public int bottleRowQty;
+    public float bottleMargin;
     [Header("Prefabs")]
     [SerializeField] private GameObject bottlePrefab = null;
     [SerializeField] private GameObject ballPrefab = null;
-
-    public int getBottlesQty() { return bottlesQty; }
-    public int getBallCount() { return ballCount; }
-    public float getBottleMargin() { return bottleMargin; }
-    public int getBottleRowQty() { return bottleRowQty; }
 
     public Bottle[] generateLevel()
     {
@@ -34,7 +29,7 @@ public class LevelFactory : MonoBehaviour
         string resourceName = PlayerPrefs.GetString("Bottles");
         Sprite bottleSprite = Resources.Load<Sprite>(resourceName);
 
-        Bottle[] bottles = new Bottle[bottlesQty + 2];
+        Bottle[] bottles = new Bottle[ballTypes + 2];
 
         // Populate array with new Bottles
         for (int i = 0; i < bottles.Length; i++)
@@ -59,10 +54,10 @@ public class LevelFactory : MonoBehaviour
         string resourceName = PlayerPrefs.GetString("Balls");
         Sprite[] spriteList = Resources.LoadAll<Sprite>(resourceName);
 
-        Ball[] ballList = new Ball[ballCount * bottlesQty];
+        Ball[] ballList = new Ball[ballCount * ballTypes];
 
         // Populate array with balls in order
-        for (int i = 0; i < bottlesQty; i++)
+        for (int i = 0; i < ballTypes; i++)
         {
             for (int j = 0; j < ballCount; j++)
             {
@@ -92,7 +87,7 @@ public class LevelFactory : MonoBehaviour
 
     private void populateBottles(ref Bottle[] bottles, Ball[] ballList)
     {
-        for (int i = 0; i < bottlesQty; i++)
+        for (int i = 0; i < ballTypes; i++)
         {
             for (int j = 0; j < ballCount; j++)
                 bottles[i].forcePush(ballList[i * ballCount + j], true);

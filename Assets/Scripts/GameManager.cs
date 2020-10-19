@@ -57,7 +57,7 @@ public class GameManager : MonoBehaviour
         animationManager.animateBall(
             newBottle.peekBall(),
             newBottle,
-            levelFactory.getBallCount(),
+            levelFactory.ballCount,
             newBottle.getBallQty() - 1);
 
         // Record action
@@ -97,7 +97,7 @@ public class GameManager : MonoBehaviour
         animationManager.animateBall(
             selectedBall, 
             selectedBottle, 
-            levelFactory.getBallCount());
+            levelFactory.ballCount);
     }
     
     private void verifyBottle(Bottle bottle)
