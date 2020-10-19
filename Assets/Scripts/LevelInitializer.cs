@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using GamePlayerPrefs;
+using GameKeys;
 
 public class LevelInitializer : MonoBehaviour
 {
@@ -10,8 +10,8 @@ public class LevelInitializer : MonoBehaviour
 
     private void Start()
     {
-        levelFactory.ballTypes = (int)GameSettingsManager.getPrefs(Prefs.BallTypes);
-        levelFactory.ballCount = (int)GameSettingsManager.getPrefs(Prefs.BallCount);
+        levelFactory.ballTypes = (int)KeyManager.getKey(Keys.BallTypes);
+        levelFactory.ballCount = (int)KeyManager.getKey(Keys.BallCount);
 
         Bottle[] bottles = levelFactory.generateLevel(getLevelRandomizer());
         cameraCentralizer.centralize(levelFactory);
@@ -23,7 +23,7 @@ public class LevelInitializer : MonoBehaviour
     private System.Random getLevelRandomizer()
     {
         System.Random randomizer;
-        int seed = (int)GameSettingsManager.getPrefs(Prefs.LevelSeed);
+        int seed = (int)KeyManager.getKey(Keys.LevelSeed);
 
         if (seed != 0)
             randomizer = new System.Random(seed);
@@ -32,7 +32,7 @@ public class LevelInitializer : MonoBehaviour
             seed = Random.Range(0, int.MaxValue);
             randomizer = new System.Random(seed);
 
-            GameSettingsManager.setPrefs(Prefs.LevelSeed, seed);
+            KeyManager.setKey(Keys.LevelSeed, seed);
             PlayerPrefs.Save();
         }
 

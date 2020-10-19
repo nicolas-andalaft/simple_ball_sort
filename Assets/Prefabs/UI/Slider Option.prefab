@@ -139,6 +139,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc42a110945ce4d409f3d6f83b86bfd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  key: 0
   indicator: {fileID: 7839897440285000256}
   slider: {fileID: 7196332642505208535}
 --- !u!1 &2804689161137383884
@@ -231,7 +232,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 3682232636819508465}
         m_MethodName: updateIndicator
-        m_Mode: 0
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

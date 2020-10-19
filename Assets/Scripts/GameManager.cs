@@ -1,4 +1,4 @@
-﻿using GamePlayerPrefs;
+﻿using GameKeys;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -115,7 +115,7 @@ public class GameManager : MonoBehaviour
         if (bottles.Count == 2)
         {
             StartCoroutine(showWinDialog());
-            GameSettingsManager.deletePref(Prefs.LevelSeed);
+            KeyManager.resetKey(Keys.LevelSeed);
         }
     }
 

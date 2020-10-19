@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using GamePlayerPrefs;
+using GameKeys;
 
 public class ThemesManager : MonoBehaviour
 {
@@ -22,11 +22,11 @@ public class ThemesManager : MonoBehaviour
 
     private void instantiateMenu()
     {
-        instantiatePanel(Prefs.Balls);
-        instantiatePanel(Prefs.Bottles);
+        instantiatePanel(Keys.Balls);
+        instantiatePanel(Keys.Bottles);
     }
 
-    private void instantiatePanel(Prefs resource)
+    private void instantiatePanel(Keys resource)
     {
         // Instantiate theme panel
         GameObject panel = Instantiate(themePanel, themePanelsSlot);
@@ -51,7 +51,7 @@ public class ThemesManager : MonoBehaviour
             themeContainerScript.setResource(resource);
             themeContainerScript.setPackName(resource + "_" + i);
 
-            if ((string)GameSettingsManager.getPrefs(resource) == (resource + "_" + i))
+            if (KeyManager.getKey(resource) == (resource + "_" + i))
                 themeContainerScript.setPack();
 
             i++;

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using GamePlayerPrefs;
+using GameKeys;
 
 public class HapticFeedback : MonoBehaviour
 {
@@ -17,7 +17,7 @@ public class HapticFeedback : MonoBehaviour
 #endif
 
         // Checks player prefs
-        isActive = (bool)GameSettingsManager.getPrefs(Prefs.Vibration);
+        isActive = (bool)KeyManager.getKey(Keys.Vibration);
     }
 
     public void vibrate(long duration)
@@ -29,7 +29,7 @@ public class HapticFeedback : MonoBehaviour
     public void setVibrationPrefs(Toggle toggle)
     {
         isActive = toggle.isOn;
-        GameSettingsManager.setPrefs(Prefs.Vibration, isActive);
+        KeyManager.setKey(Keys.Vibration, isActive);
     }
 
     private void handheldCall()

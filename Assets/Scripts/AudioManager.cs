@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using GamePlayerPrefs;
+using GameKeys;
 
 public class AudioManager : MonoBehaviour
 {
@@ -12,7 +12,7 @@ public class AudioManager : MonoBehaviour
 
     public void Awake()
     {
-        isActive = (bool)GameSettingsManager.getPrefs(Prefs.Volume);
+        isActive = (bool)KeyManager.getKey(Keys.Volume);
     }
 
     public void playSound(Audio audio)
@@ -27,6 +27,6 @@ public class AudioManager : MonoBehaviour
     public void setVolumePrefs(Toggle toggle)
     {
         isActive = toggle.isOn;
-        GameSettingsManager.setPrefs(Prefs.Volume, isActive);
+        KeyManager.setKey(Keys.Volume, isActive);
     }
 }
