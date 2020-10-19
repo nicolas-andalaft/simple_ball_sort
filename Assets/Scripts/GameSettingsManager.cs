@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace GamePlayerPrefs
 {
-    public enum Prefs { Balls, Bottles, Volume, Vibration, BallTypes, BallCount }
+    public enum Prefs { Balls, Bottles, Volume, Vibration, BallTypes, BallCount, LevelSeed }
 
     public class GameSettingsManager : MonoBehaviour
     {
@@ -15,23 +15,28 @@ namespace GamePlayerPrefs
 
         public static object getPrefs(Prefs pref)
         {
-            // String options
-            if (pref == Prefs.Balls || pref == Prefs.Bottles)
-                return PlayerPrefs.GetString(pref.ToString());
-
-            // "Bool" options
-            if (pref == Prefs.Volume || pref == Prefs.Vibration)
+            switch (pref)
             {
-                int value = PlayerPrefs.GetInt(pref.ToString());
-                return value == 1 ? true : false;
+                // String options
+                case Prefs.Balls:
+                case Prefs.Bottles:
+                    return PlayerPrefs.GetString(pref.ToString());
+
+                // "Bool" options
+                case Prefs.Volume:
+                case Prefs.Vibration:
+                    int value = PlayerPrefs.GetInt(pref.ToString());
+                    return value == 1 ? true : false;
+
+                // Int options
+                case Prefs.BallTypes:
+                case Prefs.BallCount:
+                case Prefs.LevelSeed:
+                    return PlayerPrefs.GetInt(pref.ToString());
+
+                default:
+                    return null;
             }
-
-            // Int options
-            if (pref == Prefs.BallTypes || pref == Prefs.BallCount)
-                return PlayerPrefs.GetInt(pref.ToString());
-
-            // Else
-            return null;
         }
 
         public static void setPrefs(Prefs pref, object value)
@@ -45,7 +50,7 @@ namespace GamePlayerPrefs
                 PlayerPrefs.SetInt(pref.ToString(), (bool)value ? 1 : 0);
 
             // Int options
-            if (pref == Prefs.BallTypes || pref == Prefs.BallCount)
+            if (pref == Prefs.BallTypes || pref == Prefs.BallCount || pref == Prefs.LevelSeed)
                 PlayerPrefs.SetInt(pref.ToString(), (int)value);
         }
 
@@ -69,6 +74,7 @@ namespace GamePlayerPrefs
 
             checkPref(Prefs.BallTypes, 3);
             checkPref(Prefs.BallCount, 4);
+            checkPref(Prefs.LevelSeed, 0);
         }
 
         public void deleteAllPrefs()
@@ -79,6 +85,11 @@ namespace GamePlayerPrefs
 
             updateToggles();
             updateSliders();
+        }
+
+        public static void deletePref(Prefs pref)
+        {
+            PlayerPrefs.DeleteKey(pref.ToString());
         }
 
         public void savePlayerPrefs()

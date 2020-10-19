@@ -11,14 +11,14 @@ public class LevelFactory : MonoBehaviour
     [SerializeField] private GameObject bottlePrefab = null;
     [SerializeField] private GameObject ballPrefab = null;
 
-    public Bottle[] generateLevel()
+    public Bottle[] generateLevel(System.Random randomizer)
     {
         Bottle.containerCapacity = ballCount;
 
         Bottle[] bottles = instantiateBottles();
         Ball[] ballList = createBallList();
 
-        shuffleBalls(ref ballList);
+        shuffleBalls(ref ballList, randomizer);
         populateBottles(ref bottles, ballList);
 
         return bottles;
@@ -70,12 +70,12 @@ public class LevelFactory : MonoBehaviour
         return ballList;
     }
 
-    private void shuffleBalls(ref Ball[] ballList)
+    private void shuffleBalls(ref Ball[] ballList, System.Random randomizer)
     {
         int randomIndex;
         for (int i = ballList.Length - 1; i >= 0; i--)
         {
-            randomIndex = Random.Range(0, i);
+            randomIndex = randomizer.Next(0, ballList.Length);
             if (randomIndex != i)
             {
                 Ball aux = ballList[randomIndex];

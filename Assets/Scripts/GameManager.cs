@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using GamePlayerPrefs;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -112,7 +113,10 @@ public class GameManager : MonoBehaviour
 
         // 2 is the default empty bottles value
         if (bottles.Count == 2)
+        {
             StartCoroutine(showWinDialog());
+            GameSettingsManager.deletePref(Prefs.LevelSeed);
+        }
     }
 
     private IEnumerator showWinDialog()
