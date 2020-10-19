@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using GamePlayerPrefs;
 
 public class AudioManager : MonoBehaviour
 {
-    private static bool isActive;
+    public static bool isActive;
     public enum Audio { BallActive, BallInactive }
     [SerializeField] private AudioSource actionAudioSource;
     [SerializeField] private AudioSource eventAudioSource;
@@ -11,10 +12,7 @@ public class AudioManager : MonoBehaviour
 
     public void Awake()
     {
-        if (PlayerPrefs.GetInt("Volume") == 0)
-            isActive = false;
-        else
-            isActive = true;
+        isActive = (bool)GameSettingsManager.getPrefs(Prefs.Volume);
     }
 
     public void playSound(Audio audio)
@@ -28,7 +26,7 @@ public class AudioManager : MonoBehaviour
 
     public void setVolumePrefs(Toggle toggle)
     {
-        PlayerPrefs.SetInt("Volume", toggle.isOn ? 1 : 0);
-        PlayerPrefs.Save();
+        isActive = toggle.isOn;
+        GameSettingsManager.setPrefs(Prefs.Volume, isActive);
     }
 }

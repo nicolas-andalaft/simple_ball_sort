@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using GamePlayerPrefs;
 
 public class HapticFeedback : MonoBehaviour
 {
-    private static bool isActive;
+    public static bool isActive;
     private AndroidJavaObject vibrator;
 
     private void Awake()
@@ -16,10 +17,7 @@ public class HapticFeedback : MonoBehaviour
 #endif
 
         // Checks player prefs
-        if (PlayerPrefs.GetInt("Vibration") == 0)
-            isActive = false;
-        else
-            isActive = true;
+        isActive = (bool)GameSettingsManager.getPrefs(Prefs.Vibration);
     }
 
     public void vibrate(long duration)
@@ -30,8 +28,8 @@ public class HapticFeedback : MonoBehaviour
 
     public void setVibrationPrefs(Toggle toggle)
     {
-        PlayerPrefs.SetInt("Vibration", toggle.isOn ? 1 : 0);
-        PlayerPrefs.Save();
+        isActive = toggle.isOn;
+        GameSettingsManager.setPrefs(Prefs.Vibration, isActive);
     }
 
     private void handheldCall()

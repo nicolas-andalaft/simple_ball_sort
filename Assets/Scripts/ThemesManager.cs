@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using GamePlayerPrefs;
 
 public class ThemesManager : MonoBehaviour
 {
@@ -19,24 +20,19 @@ public class ThemesManager : MonoBehaviour
         instantiateMenu();
     }
 
-    public void updatePrefs()
-    {
-        PlayerPrefs.Save();
-    }
-
     private void instantiateMenu()
     {
-        instantiatePanel("Balls");
-        instantiatePanel("Bottles");
+        instantiatePanel(Prefs.Balls);
+        instantiatePanel(Prefs.Bottles);
     }
 
-    private void instantiatePanel(string resourceName)
+    private void instantiatePanel(Prefs resource)
     {
         // Instantiate theme panel
         GameObject panel = Instantiate(themePanel, themePanelsSlot);
 
         ThemePanel themePanelScript = panel.GetComponent<ThemePanel>();
-        themePanelScript.setTitle(resourceName);
+        themePanelScript.setTitle(resource.ToString());
 
         Transform slot = themePanelScript.getContentSlot();
 
@@ -46,20 +42,20 @@ public class ThemesManager : MonoBehaviour
 
         // Sequencial search for resources
         int i = 0;
-        Sprite[] sprites = Resources.LoadAll<Sprite>(resourceName + "_" + i);
+        Sprite[] sprites = Resources.LoadAll<Sprite>(resource + "_" + i);
 
         while (sprites.Length > 0)
         {
             var themeContainerScript = instantiateThemeContainer(slot, sprites);
             themeContainerScript.setThemePanel(themePanelScript);
-            themeContainerScript.setResourceName(resourceName);
-            themeContainerScript.setPackName(resourceName + "_" + i);
+            themeContainerScript.setResource(resource);
+            themeContainerScript.setPackName(resource + "_" + i);
 
-            if (PlayerPrefs.GetString(resourceName) == (resourceName + "_" + i))
+            if ((string)GameSettingsManager.getPrefs(resource) == (resource + "_" + i))
                 themeContainerScript.setPack();
 
             i++;
-            sprites = Resources.LoadAll<Sprite>(resourceName + "_" + i);
+            sprites = Resources.LoadAll<Sprite>(resource + "_" + i);
         }
     }
 
