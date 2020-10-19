@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using GamePlayerPrefs;
 
 public class AppInitializer : MonoBehaviour
 {
@@ -9,21 +10,15 @@ public class AppInitializer : MonoBehaviour
 
     private void checkKeys()
     {
-        bool changed = false;
+        // Set default values
 
-        if (!PlayerPrefs.HasKey("Balls"))
-        {
-            changed = true;
-            PlayerPrefs.SetString("Balls", "Balls_0");
-        }
+        GameSettingsManager.checkPref(Prefs.Balls, Prefs.Balls + "_0");
+        GameSettingsManager.checkPref(Prefs.Bottles, Prefs.Bottles + "_0");
 
-        if (!PlayerPrefs.HasKey("Bottles"))
-        {
-            changed = true;
-            PlayerPrefs.SetString("Bottles", "Bottles_0");
-        }
+        GameSettingsManager.checkPref(Prefs.Volume, 1);
+        GameSettingsManager.checkPref(Prefs.Vibration, 1);
 
-        if (changed)
-            PlayerPrefs.Save();
+        GameSettingsManager.checkPref(Prefs.BallTypes, 3);
+        GameSettingsManager.checkPref(Prefs.BallQty, 4);
     }
 }
