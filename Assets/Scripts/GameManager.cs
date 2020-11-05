@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using GameKeys;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -44,7 +45,7 @@ public class GameManager : MonoBehaviour
             selectBottle(newBottle);
     }
 
-    private void swapBalls(Bottle oldBottle, Bottle newBottle)
+    public void swapBalls(Bottle oldBottle, Bottle newBottle, bool recordAction = true)
     {
         // Swap bottles
         Ball swapBall = oldBottle.popBall();
@@ -57,11 +58,12 @@ public class GameManager : MonoBehaviour
         animationManager.animateBall(
             newBottle.peekBall(),
             newBottle,
-            levelFactory.getBallCount(),
+            levelFactory.ballCount,
             newBottle.getBallQty() - 1);
 
         // Record action
-        actionsManager.pushAction(oldBottle, newBottle);
+        if (recordAction)
+            actionsManager.pushAction(oldBottle, newBottle);
 
         // Verify bottle sorting order
         verifyBottle(newBottle);
@@ -71,7 +73,7 @@ public class GameManager : MonoBehaviour
     {
         // Used when a ball is deselected but doesnt change bottles
 
-        Ball selectedBall = selectedBottle.peekBall();
+        Ball selectedBall = selectedBottle?.peekBall();
         if (selectedBall)
         {
             setBallState(selectedBall, false);
@@ -97,7 +99,7 @@ public class GameManager : MonoBehaviour
         animationManager.animateBall(
             selectedBall, 
             selectedBottle, 
-            levelFactory.getBallCount());
+            levelFactory.ballCount);
     }
     
     private void verifyBottle(Bottle bottle)
@@ -111,7 +113,10 @@ public class GameManager : MonoBehaviour
 
         // 2 is the default empty bottles value
         if (bottles.Count == 2)
+        {
             StartCoroutine(showWinDialog());
+            KeyManager.resetKey(Keys.LevelSeed);
+        }
     }
 
     private IEnumerator showWinDialog()

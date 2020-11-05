@@ -1,8 +1,13 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using GameKeys;
 
 public class ThemesManager : MonoBehaviour
 {
+    public static Color _activeColor { get; private set; }
+    public static Color _inactiveColor { get; private set; }
+    [SerializeField] private Color inactiveColor;
+    [SerializeField] private Color activeColor;
     [SerializeField] private RectTransform themePanelsSlot;
     [SerializeField] private GameObject themePanel;
     [SerializeField] private GameObject themeContainer;
@@ -10,22 +15,24 @@ public class ThemesManager : MonoBehaviour
 
     private void Start()
     {
+        _activeColor = activeColor;
+        _inactiveColor = inactiveColor;
         instantiateMenu();
     }
 
     private void instantiateMenu()
     {
-        instantiatePanel("Balls");
-        instantiatePanel("Bottles");
+        instantiatePanel(Keys.Balls);
+        instantiatePanel(Keys.Bottles);
     }
 
-    private void instantiatePanel(string resourceName)
+    private void instantiatePanel(Keys resource)
     {
         // Instantiate theme panel
         GameObject panel = Instantiate(themePanel, themePanelsSlot);
 
         ThemePanel themePanelScript = panel.GetComponent<ThemePanel>();
-        themePanelScript.setTitle(resourceName);
+        themePanelScript.setTitle(resource.ToString());
 
         Transform slot = themePanelScript.getContentSlot();
 
@@ -35,21 +42,28 @@ public class ThemesManager : MonoBehaviour
 
         // Sequencial search for resources
         int i = 0;
-        Sprite[] sprites = Resources.LoadAll<Sprite>(resourceName + "_" + i);
+        Sprite[] sprites = Resources.LoadAll<Sprite>(resource + "_" + i);
 
         while (sprites.Length > 0)
         {
-            instantiateThemeContainer(slot, sprites);
+            var themeContainerScript = instantiateThemeContainer(slot, sprites);
+            themeContainerScript.setThemePanel(themePanelScript);
+            themeContainerScript.setResource(resource);
+            themeContainerScript.setPackName(resource + "_" + i);
+
+            if (KeyManager.getKey(resource) == (resource + "_" + i))
+                themeContainerScript.setPack();
 
             i++;
-            sprites = Resources.LoadAll<Sprite>(resourceName + "_" + i);
+            sprites = Resources.LoadAll<Sprite>(resource + "_" + i);
         }
     }
 
-    private void instantiateThemeContainer(Transform parent, Sprite[] sprites)
+    private ThemeContainer instantiateThemeContainer(Transform parent, Sprite[] sprites)
     {
         // Instantiate theme container
         Transform slot = Instantiate(themeContainer, parent).transform;
+        var themeContainerScript = slot.GetComponent<ThemeContainer>();
 
         // Get last child
         while (slot.childCount != 0)
@@ -62,6 +76,8 @@ public class ThemesManager : MonoBehaviour
         // Instantitate theme items
         for (int i = 0; i < sprites.Length; i++)
             instantitateThemeItem(slot, sprites[i]);
+
+        return themeContainerScript;
     }
 
     private void instantitateThemeItem(Transform parent, Sprite sprite)
@@ -69,6 +85,5 @@ public class ThemesManager : MonoBehaviour
         GameObject item = Instantiate(themeItem, parent);
 
         item.GetComponent<Image>().sprite = sprite;
-        //item.GetComponent<AspectRatioFitter>().aspectRatio = aspectRatio;
     }
 }

@@ -3,27 +3,22 @@
 public class LevelFactory : MonoBehaviour
 {
     [Header("Values")]
-    [SerializeField] private int bottlesQty;
-    [SerializeField] private int bottleRowQty;
-    [SerializeField] private float bottleMargin;
-    [SerializeField] private int ballCount;
+    public int ballTypes;
+    public int ballCount;
+    public int bottleRowQty;
+    public float bottleMargin;
     [Header("Prefabs")]
     [SerializeField] private GameObject bottlePrefab = null;
     [SerializeField] private GameObject ballPrefab = null;
 
-    public int getBottlesQty() { return bottlesQty; }
-    public int getBallCount() { return ballCount; }
-    public float getBottleMargin() { return bottleMargin; }
-    public int getBottleRowQty() { return bottleRowQty; }
-
-    public Bottle[] generateLevel()
+    public Bottle[] generateLevel(System.Random randomizer)
     {
         Bottle.containerCapacity = ballCount;
 
         Bottle[] bottles = instantiateBottles();
         Ball[] ballList = createBallList();
 
-        shuffleBalls(ref ballList);
+        shuffleBalls(ref ballList, randomizer);
         populateBottles(ref bottles, ballList);
 
         return bottles;
@@ -31,8 +26,10 @@ public class LevelFactory : MonoBehaviour
 
     private Bottle[] instantiateBottles()
     {
-        Sprite bottleSprite = Resources.Load<Sprite>("Bottles_0");
-        Bottle[] bottles = new Bottle[bottlesQty + 2];
+        string resourceName = PlayerPrefs.GetString("Bottles");
+        Sprite bottleSprite = Resources.Load<Sprite>(resourceName);
+
+        Bottle[] bottles = new Bottle[ballTypes + 2];
 
         // Populate array with new Bottles
         for (int i = 0; i < bottles.Length; i++)
@@ -54,11 +51,13 @@ public class LevelFactory : MonoBehaviour
 
     private Ball[] createBallList()
     {
-        Ball[] ballList = new Ball[ballCount * bottlesQty];
-        Sprite[] spriteList = Resources.LoadAll<Sprite>("Balls_0");
+        string resourceName = PlayerPrefs.GetString("Balls");
+        Sprite[] spriteList = Resources.LoadAll<Sprite>(resourceName);
+
+        Ball[] ballList = new Ball[ballCount * ballTypes];
 
         // Populate array with balls in order
-        for (int i = 0; i < bottlesQty; i++)
+        for (int i = 0; i < ballTypes; i++)
         {
             for (int j = 0; j < ballCount; j++)
             {
@@ -71,12 +70,12 @@ public class LevelFactory : MonoBehaviour
         return ballList;
     }
 
-    private void shuffleBalls(ref Ball[] ballList)
+    private void shuffleBalls(ref Ball[] ballList, System.Random randomizer)
     {
         int randomIndex;
         for (int i = ballList.Length - 1; i >= 0; i--)
         {
-            randomIndex = Random.Range(0, i);
+            randomIndex = randomizer.Next(0, ballList.Length);
             if (randomIndex != i)
             {
                 Ball aux = ballList[randomIndex];
@@ -88,7 +87,7 @@ public class LevelFactory : MonoBehaviour
 
     private void populateBottles(ref Bottle[] bottles, Ball[] ballList)
     {
-        for (int i = 0; i < bottlesQty; i++)
+        for (int i = 0; i < ballTypes; i++)
         {
             for (int j = 0; j < ballCount; j++)
                 bottles[i].forcePush(ballList[i * ballCount + j], true);
