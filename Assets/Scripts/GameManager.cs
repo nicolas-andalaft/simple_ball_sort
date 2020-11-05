@@ -30,14 +30,14 @@ public class GameManager : MonoBehaviour
 
         if (selectedBottle)
         {
-            if (selectedBottle != newBottle && newBottle.canPush(selectedBottle.peekBall()))
+            if (selectedBottle == newBottle)
+                cancelBottleSelection();
+            else if (newBottle.canPush(selectedBottle.peekBall()))
             {
                 // Ball is able to swap bottles
                 swapBalls(selectedBottle, newBottle);
                 selectedBottle = null;
             }
-            else
-                cancelBottleSelection();
         }
         // Set bottle selection
         else if (newBottle.peekBall())
