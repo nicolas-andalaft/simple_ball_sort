@@ -23,4 +23,6 @@ public class Ball : MonoBehaviour
 
     public void animate() { animator.SetTrigger("bounce"); }
 
+    public void deactivate() { spriteRenderer.color = new Color(256, 256, 256, 0.4f); }
+
 }

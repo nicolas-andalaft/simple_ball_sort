@@ -92,6 +92,9 @@ public class Bottle : MonoBehaviour
     public void deactivate()
     {
         GetComponent<BoxCollider2D>().enabled = false;
+        spriteRenderer.color = new Color(256, 256, 256, 0.4f);
+        foreach (Ball ball in container)
+            ball.deactivate();
     }
 
     private void OnMouseUp()
